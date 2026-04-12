@@ -1,0 +1,1719 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sri Balaji Aluminium – Premium Kitchen & Hotelware, Salem</title>
+<meta name="description" content="Sri Balaji Aluminium – Salem's trusted kitchen & hotelware store since 1998. Aluminium, Stainless Steel, Brass, Copper utensils. Wholesale & Retail.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+<style>
+:root{
+  --g1:#FFD45A;--g2:#FCBF49;--g3:#F08D39;--g4:#FFC81E;
+  --silver:#BFC6C4;--silver-lt:#E8EEEC;
+  --white:#FFFFFF;--off-white:#FAFAF8;--warm-gray:#F5F2EC;
+  --text:#1A1A1A;--text-mid:#4A4A4A;--text-light:#7A7A7A;
+  --border:#E8E4DC;--wa:#25D366;--call:#FF6B35;
+  --grad-gold:linear-gradient(135deg,var(--g4),var(--g2),var(--g3));
+  --shadow-sm:0 2px 16px rgba(240,141,57,.12);
+  --shadow-md:0 8px 40px rgba(240,141,57,.18);
+  --r:12px;--r-lg:20px;--r-xl:32px;
+  --ff-d:'Cormorant Garamond',Georgia,serif;
+  --ff-b:'Plus Jakarta Sans',sans-serif;
+  --spring:cubic-bezier(.34,1.56,.64,1);
+  --reveal:cubic-bezier(.16,1,.3,1);
+  --hdr-h:64px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--ff-b);background:var(--white);color:var(--text);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+img{max-width:100%;display:block}
+a{text-decoration:none;color:inherit}
+button{cursor:pointer;font-family:var(--ff-b);border:none;background:none}
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-track{background:var(--warm-gray)}
+::-webkit-scrollbar-thumb{background:var(--g2);border-radius:99px}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:none}}
+@keyframes shimmer{0%{transform:translateX(-100%) skewX(-15deg)}100%{transform:translateX(200%) skewX(-15deg)}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+@keyframes ringPulse{0%{transform:scale(1);opacity:.6}100%{transform:scale(1.8);opacity:0}}
+@keyframes cartPop{0%{transform:scale(1)}40%{transform:scale(1.3) rotate(-8deg)}70%{transform:scale(.92)}100%{transform:scale(1)}}
+@keyframes skelPulse{0%{background-position:200% 0}100%{background-position:-100% 0}}
+@keyframes badgeBounce{0%{transform:scale(0) rotate(-20deg)}60%{transform:scale(1.2) rotate(5deg)}100%{transform:scale(1)}}
+@keyframes ticker{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@keyframes dotPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.3)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ══════════════════ HEADER ══════════════════ */
+.hdr{
+  position:sticky;top:0;z-index:1000;
+  background:rgba(255,255,255,.97);
+  backdrop-filter:blur(20px) saturate(1.8);
+  border-bottom:1px solid var(--border);
+  transition:box-shadow .4s;
+}
+.hdr.scrolled{box-shadow:0 4px 40px rgba(240,141,57,.12)}
+
+.nav{
+  max-width:1440px;margin:0 auto;
+  padding:0 20px;
+  height:var(--hdr-h);
+  display:flex;align-items:center;
+  gap:0;
+}
+
+/* Logo */
+.logo{
+  display:flex;align-items:center;gap:10px;
+  flex-shrink:0;text-decoration:none;
+  margin-right:16px;
+}
+.logo-img{width:44px;height:44px;border-radius:10px;object-fit:contain;background:#fff;padding:2px;flex-shrink:0}
+.logo-name{font-family:var(--ff-d);font-size:.9rem;font-weight:700;color:var(--text);line-height:1.15;white-space:nowrap}
+.logo-sub{font-size:.48rem;color:var(--text-light);letter-spacing:.12em;text-transform:uppercase;font-weight:500;white-space:nowrap}
+
+/* Nav links - center */
+.nav-links{
+  display:flex;align-items:center;gap:0;
+  flex:1;justify-content:center;
+  overflow:visible;
+}
+.nl{
+  padding:6px 8px;border-radius:8px;
+  font-size:.7rem;font-weight:600;
+  color:var(--text-mid);cursor:pointer;
+  transition:all .2s;white-space:nowrap;
+  display:flex;align-items:center;gap:3px;
+  flex-shrink:0;
+}
+.nl:hover,.nl.active{color:var(--g3);background:rgba(240,141,57,.07)}
+.nl .chev{font-size:.55rem;transition:transform .2s;margin-left:1px}
+
+/* ── Mega Dropdown ── */
+.drop-wrap{position:relative}
+.drop-wrap:hover>.nl .chev{transform:rotate(180deg)}
+
+/* Standard simple dropdown */
+.simple-dd{
+  position:absolute;top:calc(100% + 6px);left:0;
+  background:#fff;border:1px solid var(--border);
+  border-radius:var(--r-lg);
+  box-shadow:0 20px 60px rgba(0,0,0,.1);
+  min-width:175px;
+  opacity:0;transform:translateY(-8px);
+  pointer-events:none;
+  transition:all .22s var(--spring);
+  z-index:200;overflow:hidden;padding:6px;
+}
+.drop-wrap:hover>.simple-dd{opacity:1;transform:translateY(0);pointer-events:all}
+
+/* Mega dropdown with flyout submenus */
+.mega-dd{
+  position:absolute;top:calc(100% + 6px);left:0;
+  background:#fff;border:1px solid var(--border);
+  border-radius:var(--r-lg);
+  box-shadow:0 20px 60px rgba(0,0,0,.12);
+  min-width:210px;
+  opacity:0;transform:translateY(-8px);
+  pointer-events:none;
+  transition:all .22s var(--spring);
+  z-index:300;padding:6px;
+}
+.drop-wrap:hover>.mega-dd{opacity:1;transform:translateY(0);pointer-events:all}
+
+.di{
+  display:flex;align-items:center;gap:9px;
+  padding:8px 12px;font-size:.78rem;
+  color:var(--text-mid);cursor:pointer;
+  transition:background .15s;border-radius:8px;white-space:nowrap;
+  position:relative;
+}
+.di:hover{background:rgba(255,212,90,.12);color:var(--g3)}
+.di-icon{font-size:.85rem;flex-shrink:0}
+.di-arrow{margin-left:auto;font-size:.6rem;color:var(--text-light)}
+.mega-section-title{
+  padding:4px 12px;font-size:.6rem;font-weight:700;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--g3);
+  display:flex;align-items:center;gap:7px;
+}
+.mega-section-title::after{content:'';flex:1;height:1px;background:rgba(240,141,57,.15)}
+
+/* Flyout submenu */
+.has-flyout{position:relative}
+.has-flyout>.flyout{
+  position:absolute;left:100%;top:-6px;
+  background:#fff;border:1px solid var(--border);
+  border-radius:var(--r-lg);
+  box-shadow:0 20px 60px rgba(0,0,0,.12);
+  min-width:160px;
+  opacity:0;transform:translateX(-8px);
+  pointer-events:none;
+  transition:all .2s var(--spring);
+  z-index:400;padding:6px;
+  margin-left:4px;
+}
+.has-flyout:hover>.flyout{opacity:1;transform:translateX(0);pointer-events:all}
+.has-flyout:hover>.di{background:rgba(255,212,90,.12);color:var(--g3)}
+.fly-title{
+  padding:4px 12px;font-size:.58rem;font-weight:700;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--g3);
+  display:flex;align-items:center;gap:7px;
+}
+.fly-title::after{content:'';flex:1;height:1px;background:rgba(240,141,57,.15)}
+.fi{
+  display:flex;align-items:center;gap:8px;
+  padding:7px 12px;font-size:.76rem;
+  color:var(--text-mid);cursor:pointer;
+  transition:background .15s;border-radius:8px;white-space:nowrap;
+}
+.fi:hover{background:rgba(255,212,90,.12);color:var(--g3)}
+
+/* Nav actions - right */
+.nav-actions{
+  display:flex;align-items:center;gap:8px;
+  flex-shrink:0;margin-left:12px;
+}
+
+/* Desktop search */
+.desk-search{position:relative;flex-shrink:0}
+.desk-search-form{
+  display:flex;align-items:center;
+  background:var(--warm-gray);border-radius:99px;
+  border:1.5px solid transparent;
+  transition:border-color .2s,box-shadow .2s;
+  overflow:hidden;
+}
+.desk-search-form:focus-within{
+  border-color:var(--g2);
+  box-shadow:0 0 0 3px rgba(255,200,30,.12);
+}
+.desk-search-inp{
+  width:160px;padding:8px 12px;
+  background:transparent;border:none;
+  font-size:.76rem;font-family:var(--ff-b);
+  color:var(--text);outline:none;
+}
+.desk-search-inp::placeholder{color:var(--text-light)}
+.desk-search-icon{
+  padding:0 11px 0 0;color:var(--text-light);font-size:.88rem;
+  cursor:pointer;background:none;border:none;
+  display:flex;align-items:center;
+}
+
+/* Search results dropdown */
+.search-dropdown{
+  position:absolute;top:calc(100% + 8px);right:0;
+  background:#fff;border:1px solid var(--border);
+  border-radius:var(--r-lg);
+  box-shadow:var(--shadow-md);
+  min-width:300px;max-width:360px;
+  opacity:0;pointer-events:none;
+  transition:all .22s;z-index:500;overflow:hidden;
+}
+.search-dropdown.open{opacity:1;pointer-events:all}
+.sd-item{
+  display:flex;align-items:center;gap:11px;
+  padding:10px 14px;cursor:pointer;transition:background .15s;
+}
+.sd-item:hover{background:rgba(255,212,90,.1)}
+.sd-item-img{
+  width:40px;height:40px;border-radius:9px;
+  object-fit:cover;background:var(--warm-gray);
+  flex-shrink:0;font-size:1.1rem;
+  display:flex;align-items:center;justify-content:center;overflow:hidden;
+}
+.sd-item-img img{width:100%;height:100%;object-fit:cover}
+.sd-item-name{font-size:.82rem;font-weight:600;color:var(--text)}
+.sd-item-cat{font-size:.68rem;color:var(--text-light)}
+.sd-empty{padding:18px;text-align:center;color:var(--text-light);font-size:.82rem;font-style:italic}
+.sd-see-all{
+  padding:10px 14px;text-align:center;
+  font-size:.75rem;font-weight:700;color:var(--g3);
+  cursor:pointer;border-top:1px solid var(--border);
+  transition:background .15s;
+}
+.sd-see-all:hover{background:rgba(255,212,90,.08)}
+
+.cart-btn{
+  display:flex;align-items:center;gap:6px;
+  padding:8px 14px;border-radius:99px;
+  background:var(--grad-gold);color:var(--text);
+  font-size:.76rem;font-weight:700;
+  box-shadow:var(--shadow-sm);transition:all .25s;
+  position:relative;flex-shrink:0;
+}
+.cart-btn:hover{transform:translateY(-2px);box-shadow:var(--shadow-md)}
+.cbadge{
+  position:absolute;top:-5px;right:-5px;
+  width:19px;height:19px;border-radius:50%;
+  background:var(--g3);color:#fff;font-size:.6rem;
+  font-weight:800;display:none;align-items:center;justify-content:center;
+  animation:badgeBounce .4s var(--spring) both;
+}
+.cbadge.show{display:flex}
+
+/* Hamburger */
+.hamburger{
+  display:none;flex-direction:column;gap:5px;
+  padding:8px;cursor:pointer;
+}
+.hamburger span{width:22px;height:2px;background:var(--text);border-radius:99px;transition:all .3s;display:block}
+.hamburger.open span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
+.hamburger.open span:nth-child(2){opacity:0;transform:scaleX(0)}
+.hamburger.open span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px)}
+
+/* ══════════════════ MOBILE NAV ══════════════════ */
+.mobile-nav{
+  position:fixed;inset:0;background:rgba(255,255,255,.99);
+  backdrop-filter:blur(20px);z-index:2000;
+  display:flex;flex-direction:column;
+  padding:0;
+  transform:translateX(100%);
+  transition:transform .4s var(--reveal);overflow-y:auto;
+}
+.mobile-nav.open{transform:none}
+.mob-nav-header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px 18px;border-bottom:1px solid var(--border);
+  background:var(--warm-gray);position:sticky;top:0;z-index:1;
+}
+.mob-nav-title{font-family:var(--ff-d);font-size:1rem;font-weight:700;color:var(--text)}
+.mob-close{
+  font-size:1.2rem;color:var(--text-mid);cursor:pointer;
+  width:34px;height:34px;display:flex;align-items:center;justify-content:center;
+  background:#fff;border-radius:50%;border:none;
+}
+
+/* ── MOBILE SEARCH BAR — prominent, separate ── */
+.mob-search-bar{
+  padding:14px 16px 12px;
+  background:#fff;
+  border-bottom:2px solid var(--border);
+  position:sticky;top:0;z-index:2;
+}
+.mob-search-label{
+  font-size:.62rem;font-weight:700;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--text-light);
+  margin-bottom:8px;display:block;
+}
+.mob-search-wrap{
+  display:flex;align-items:center;gap:0;
+  background:var(--warm-gray);border-radius:14px;
+  border:2px solid var(--border);
+  overflow:hidden;transition:border-color .2s,box-shadow .2s;
+}
+.mob-search-wrap:focus-within{
+  border-color:var(--g2);
+  box-shadow:0 0 0 3px rgba(255,200,30,.12);
+}
+.mob-search-icon{
+  padding:0 10px 0 14px;font-size:1.05rem;color:var(--text-light);
+  flex-shrink:0;
+}
+.mob-search-inp{
+  flex:1;padding:13px 8px;
+  background:transparent;border:none;
+  font-size:.94rem;font-family:var(--ff-b);
+  color:var(--text);outline:none;
+}
+.mob-search-inp::placeholder{color:var(--text-light)}
+.mob-search-clear{
+  padding:0 14px;font-size:.82rem;color:var(--text-light);
+  background:none;border:none;cursor:pointer;
+  display:none;align-items:center;justify-content:center;
+  height:46px;font-weight:700;
+}
+.mob-search-clear.show{display:flex}
+.mob-search-btn{
+  padding:0 14px;background:var(--grad-gold);height:46px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:.78rem;font-weight:700;color:var(--text);
+  cursor:pointer;border:none;flex-shrink:0;
+  border-left:1px solid rgba(240,141,57,.2);
+}
+
+/* Mobile search results */
+.mob-search-results{
+  background:#fff;border-bottom:1px solid var(--border);
+  display:none;
+}
+.mob-search-results.show{display:block}
+.mob-links-area{padding:8px 16px 20px}
+.mob-link{
+  font-size:1rem;font-family:var(--ff-d);font-weight:600;
+  padding:13px 0;border-bottom:1px solid var(--border);
+  color:var(--text);cursor:pointer;display:block;transition:color .2s;
+}
+.mob-link:hover{color:var(--g3)}
+
+/* Mobile accordion for categories */
+.mob-acc-hdr{
+  display:flex;align-items:center;justify-content:space-between;
+  font-size:1rem;font-family:var(--ff-d);font-weight:600;
+  padding:13px 0;border-bottom:1px solid var(--border);
+  color:var(--text);cursor:pointer;
+}
+.mob-acc-hdr .chev{font-size:.65rem;transition:transform .25s;color:var(--text-light)}
+.mob-acc-hdr.open .chev{transform:rotate(180deg)}
+.mob-acc-body{max-height:0;overflow:hidden;transition:max-height .3s ease}
+.mob-acc-body.open{max-height:500px}
+.mob-sub-item{
+  display:flex;align-items:center;gap:8px;
+  padding:10px 14px;font-size:.86rem;color:var(--text-mid);
+  cursor:pointer;border-radius:8px;margin:2px 0;
+  background:var(--warm-gray);transition:background .18s;
+}
+.mob-sub-item:hover{background:rgba(255,212,90,.18);color:var(--g3)}
+.mob-sub-section{padding:6px 0 4px;font-size:.62rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--g3)}
+
+.mob-actions{display:flex;flex-direction:column;gap:10px;margin-top:18px}
+
+/* ══════════════════ TICKER ══════════════════ */
+.ticker{background:var(--grad-gold);overflow:hidden;height:33px;display:flex;align-items:center}
+.tk-track{display:flex;white-space:nowrap;animation:ticker 32s linear infinite}
+.tk-item{display:inline-flex;align-items:center;gap:8px;padding:0 28px;font-size:.7rem;font-weight:700;color:rgba(0,0,0,.62);letter-spacing:.04em}
+.tk-sep{width:5px;height:5px;border-radius:50%;background:rgba(0,0,0,.22);flex-shrink:0}
+
+/* ══════════════════ HERO ══════════════════ */
+.hero{min-height:60vh;display:flex;align-items:center;position:relative;overflow:hidden;padding:50px 0}
+.hero-slides{position:absolute;inset:0;z-index:0}
+.hero-slide{position:absolute;inset:0;opacity:0;transition:opacity 1.2s ease;background-size:cover;background-position:center}
+.hero-slide.active{opacity:1}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.65) 0%,rgba(0,0,0,.55) 100%)}
+.hero-inner{max-width:900px;margin:0 auto;padding:0 20px;position:relative;z-index:1;text-align:center;display:flex;flex-direction:column;align-items:center}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,rgba(255,212,90,.22),rgba(252,191,73,.22));border:1px solid rgba(252,191,73,.5);color:var(--g4);font-size:.68rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:6px 16px;border-radius:99px;margin-bottom:18px;animation:fadeUp .7s .1s var(--reveal) both}
+.hed{width:6px;height:6px;border-radius:50%;background:var(--g2);animation:dotPulse 2s ease-in-out infinite}
+.hero-title{font-family:var(--ff-d);font-size:clamp(2.2rem,6vw,4.2rem);font-weight:700;line-height:1.08;color:#fff;margin-bottom:14px;animation:fadeUp .8s .2s var(--reveal) both}
+.ht-gold{background:var(--grad-gold);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.ht-italic{font-style:italic;font-weight:400}
+.hero-sub{font-size:.92rem;color:rgba(255,255,255,.75);line-height:1.75;margin-bottom:8px;animation:fadeUp .8s .32s var(--reveal) both}
+.hero-tamil{font-size:.82rem;color:var(--g2);font-weight:600;margin-bottom:24px;animation:fadeUp .8s .42s var(--reveal) both}
+.hero-btns{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;animation:fadeUp .8s .52s var(--reveal) both}
+.btn-gold{display:inline-flex;align-items:center;gap:8px;padding:13px 28px;border-radius:var(--r);background:var(--grad-gold);color:var(--text);font-weight:700;font-size:.86rem;box-shadow:0 6px 28px rgba(240,141,57,.35);transition:all .3s var(--spring);position:relative;overflow:hidden;border:none;cursor:pointer;text-decoration:none}
+.btn-gold::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.25),transparent);transform:translateX(-100%) skewX(-15deg)}
+.btn-gold:hover{transform:translateY(-3px);box-shadow:0 12px 40px rgba(240,141,57,.45)}
+.btn-gold:hover::before{animation:shimmer .6s ease}
+.btn-outline{display:inline-flex;align-items:center;gap:8px;padding:13px 24px;border-radius:var(--r);background:rgba(255,255,255,.1);color:#fff;font-weight:600;font-size:.86rem;border:2px solid rgba(255,255,255,.3);transition:all .3s;text-decoration:none;cursor:pointer;backdrop-filter:blur(8px)}
+.btn-outline:hover{border-color:var(--g2);background:rgba(255,200,30,.15);transform:translateY(-2px)}
+.hero-badges{display:flex;gap:12px;margin-top:22px;flex-wrap:wrap;justify-content:center;animation:fadeUp .8s .62s var(--reveal) both}
+.hb{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.1);backdrop-filter:blur(8px);padding:8px 13px;border-radius:10px;border:1px solid rgba(255,255,255,.15)}
+.hb-icon{font-size:1rem}
+.hb-text{font-size:.7rem;color:rgba(255,255,255,.65);line-height:1.3}
+.hb-text strong{display:block;color:#fff;font-size:.78rem}
+.slide-indicators{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);display:flex;gap:8px;z-index:5}
+.slide-dot{width:8px;height:8px;border-radius:99px;background:rgba(255,255,255,.35);cursor:pointer;transition:all .3s var(--spring)}
+.slide-dot.active{width:28px;background:var(--g2)}
+
+/* ══════════════════ FILTER BAR ══════════════════ */
+.fbar{background:#fff;border-bottom:2px solid var(--border);position:sticky;top:var(--hdr-h);z-index:100;box-shadow:0 2px 12px rgba(0,0,0,.05)}
+.fin{max-width:1440px;margin:0 auto;padding:0 16px;height:52px;display:flex;align-items:center;gap:6px;overflow-x:auto;-ms-overflow-style:none;scrollbar-width:none}
+.fin::-webkit-scrollbar{display:none}
+.fb{display:flex;align-items:center;gap:5px;padding:7px 15px;border-radius:99px;border:2px solid var(--border);background:#fff;color:var(--text-mid);font-size:.75rem;font-weight:600;cursor:pointer;transition:all .22s var(--spring);white-space:nowrap;flex-shrink:0}
+.fb:hover{border-color:var(--g2);color:var(--g3);background:rgba(255,200,30,.04)}
+.fb.act{background:var(--grad-gold);border-color:transparent;color:var(--text);box-shadow:var(--shadow-sm)}
+.fsort{margin-left:auto;flex-shrink:0}
+.fsort select{height:34px;padding:0 12px;border:2px solid var(--border);border-radius:99px;font-size:.75rem;font-family:var(--ff-b);color:var(--text-mid);background:#fff;outline:none;cursor:pointer;transition:border-color .2s}
+.fsort select:focus{border-color:var(--g2)}
+
+/* ══════════════════ PRODUCTS ══════════════════ */
+.products-sec{padding:50px 0;background:var(--warm-gray)}
+.products-in{max-width:1440px;margin:0 auto;padding:0 16px}
+.sec-hdr{text-align:center;margin-bottom:28px}
+.sec-eyebrow{display:inline-block;font-size:.68rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--g3);margin-bottom:8px}
+.sec-title{font-family:var(--ff-d);font-size:clamp(1.6rem,3.5vw,2.4rem);font-weight:700;color:var(--text);line-height:1.2}
+.sec-title .gold{background:var(--grad-gold);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.sec-div{width:50px;height:3px;background:var(--grad-gold);margin:12px auto 0;border-radius:99px}
+.pgrid{display:grid;grid-template-columns:repeat(5,1fr);gap:16px}
+
+/* ── Product Card — FULL IMAGE ── */
+.pcard{
+  background:#fff;border:1px solid var(--border);
+  border-radius:var(--r-lg);overflow:hidden;
+  transition:all .4s var(--spring);
+  animation:fadeUp .5s ease both;
+  box-shadow:0 2px 14px rgba(0,0,0,.04);
+  position:relative;
+  display:flex;flex-direction:column;
+  cursor:pointer;
+}
+.pcard:hover{transform:translateY(-7px);box-shadow:0 20px 56px rgba(240,141,57,.15);border-color:rgba(252,191,73,.3)}
+
+/* Full-image area — covers entire card top, tall */
+.pcard-img{
+  position:relative;
+  width:100%;
+  aspect-ratio:1/1;
+  overflow:hidden;
+  background:linear-gradient(135deg,var(--warm-gray),var(--silver-lt));
+  flex-shrink:0;
+}
+.pcard-img img{
+  width:100%;height:100%;
+  object-fit:cover;
+  display:block;
+  transition:transform .5s;
+}
+.pcard:hover .pcard-img img{transform:scale(1.06)}
+
+/* Placeholder when no image */
+.pcard-ph{
+  width:100%;height:100%;
+  display:flex;align-items:center;justify-content:center;
+  flex-direction:column;gap:6px;
+}
+.pcard-ph-em{font-size:3.4rem}
+.pcard-ph-lbl{font-size:.66rem;color:var(--text-light);font-weight:500}
+
+/* View full image overlay on hover */
+.pcard-img-overlay{
+  position:absolute;inset:0;
+  background:rgba(0,0,0,0);
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;transition:all .3s;
+}
+.pcard:hover .pcard-img-overlay{opacity:1;background:rgba(0,0,0,.18)}
+.pcard-img-overlay span{
+  background:rgba(255,255,255,.92);
+  color:var(--text);font-size:.68rem;font-weight:700;
+  padding:5px 12px;border-radius:99px;
+  transform:translateY(6px);transition:transform .3s var(--spring);
+}
+.pcard:hover .pcard-img-overlay span{transform:translateY(0)}
+
+.pcat-badge{position:absolute;top:9px;left:9px;padding:3px 10px;border-radius:99px;font-size:.6rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;backdrop-filter:blur(8px)}
+.b-al{background:rgba(255,200,30,.88);color:#1A1A1A}
+.b-ss{background:rgba(191,198,196,.88);color:#1A1A1A}
+.b-br{background:rgba(240,141,57,.88);color:#fff}
+.b-cu{background:rgba(160,80,20,.82);color:#fff}
+.b-ap{background:rgba(40,140,90,.88);color:#fff}
+.b-nl{background:rgba(220,40,40,.88);color:#fff}
+.b-kw{background:rgba(100,60,200,.88);color:#fff}
+.b-hw{background:rgba(20,120,180,.88);color:#fff}
+.b-pa{background:rgba(180,100,20,.88);color:#fff}
+.b-ha{background:rgba(30,150,80,.88);color:#fff}
+
+.pcard-body{padding:11px 12px 12px;display:flex;flex-direction:column;flex:1}
+.pcard-name{font-weight:700;font-size:.84rem;color:var(--text);margin-bottom:2px;line-height:1.35;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.pcard-cat{font-size:.65rem;color:var(--text-light);margin-bottom:7px;font-weight:500}
+.pcard-price{font-family:var(--ff-d);font-size:1rem;font-weight:700;color:var(--g3);margin-bottom:9px}
+.pcard-price.req{font-size:.76rem;color:var(--text-light);font-family:var(--ff-b);font-style:italic;font-weight:400}
+.pcard-actions{display:flex;gap:6px;margin-top:auto}
+.btn-view{flex:1;padding:7px;border-radius:var(--r);background:var(--warm-gray);color:var(--text-mid);font-size:.72rem;font-weight:600;border:1.5px solid var(--border);transition:all .22s;cursor:pointer}
+.btn-view:hover{background:rgba(255,200,30,.12);border-color:var(--g2);color:var(--g3)}
+.btn-acart{flex:1;padding:7px;border-radius:var(--r);background:var(--grad-gold);color:var(--text);font-size:.72rem;font-weight:700;box-shadow:0 2px 10px rgba(240,141,57,.22);transition:all .22s var(--spring);position:relative;overflow:hidden;cursor:pointer;border:none}
+.btn-acart:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(240,141,57,.4)}
+.btn-acart.added{background:linear-gradient(135deg,#16a34a,#22c55e);animation:cartPop .5s var(--spring)}
+
+/* ── Full-Image Modal (lightbox) ── */
+.lightbox{
+  position:fixed;inset:0;background:rgba(0,0,0,.9);
+  z-index:7000;display:flex;align-items:center;justify-content:center;
+  opacity:0;pointer-events:none;transition:opacity .3s;
+  padding:20px;
+}
+.lightbox.open{opacity:1;pointer-events:all}
+.lightbox-img{
+  max-width:90vw;max-height:86vh;
+  border-radius:var(--r-lg);
+  object-fit:contain;
+  transform:scale(.94);transition:transform .35s var(--spring);
+  display:block;
+}
+.lightbox.open .lightbox-img{transform:scale(1)}
+.lightbox-close{
+  position:absolute;top:18px;right:22px;
+  width:40px;height:40px;border-radius:50%;
+  background:rgba(255,255,255,.15);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.1rem;color:#fff;cursor:pointer;
+  border:none;backdrop-filter:blur(8px);
+  transition:background .2s;
+}
+.lightbox-close:hover{background:rgba(255,255,255,.28)}
+.lightbox-caption{
+  position:absolute;bottom:24px;left:50%;transform:translateX(-50%);
+  background:rgba(0,0,0,.6);color:#fff;
+  padding:7px 18px;border-radius:99px;font-size:.8rem;
+  backdrop-filter:blur(8px);white-space:nowrap;
+}
+
+/* Skeleton */
+.skel{background:linear-gradient(90deg,#f0f0f0 25%,#e4e4e4 50%,#f0f0f0 75%);background-size:300% 100%;animation:skelPulse 1.6s ease infinite;border-radius:8px}
+.skel-card{background:#fff;border:1px solid var(--border);border-radius:var(--r-lg);overflow:hidden}
+.sk-img{aspect-ratio:1/1}
+.sk-body{padding:12px;display:flex;flex-direction:column;gap:8px}
+.sk-line{height:12px;border-radius:99px}
+.sk-line.s{width:50%}
+.sk-line.b{height:30px;border-radius:var(--r);margin-top:4px}
+.no-results{grid-column:1/-1;text-align:center;padding:60px;color:var(--text-light)}
+.no-results-em{font-size:3.5rem;opacity:.28;margin-bottom:12px}
+
+/* Search state banner */
+.search-state-banner{
+  grid-column:1/-1;
+  background:linear-gradient(135deg,rgba(255,212,90,.08),rgba(252,191,73,.06));
+  border:1.5px solid rgba(252,191,73,.3);
+  border-radius:var(--r-lg);padding:14px 20px;
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:4px;
+}
+.ssb-text{font-size:.84rem;color:var(--text-mid)}
+.ssb-text strong{color:var(--text)}
+.ssb-clear{font-size:.78rem;font-weight:700;color:var(--g3);cursor:pointer;background:rgba(240,141,57,.1);border:none;padding:4px 10px;border-radius:99px;transition:background .2s}
+.ssb-clear:hover{background:rgba(240,141,57,.2)}
+
+/* ══════════════════ PRODUCT MODAL ══════════════════ */
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:5000;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .3s;backdrop-filter:blur(6px)}
+.modal-bg.open{opacity:1;pointer-events:all}
+.modal-box{background:#fff;border-radius:var(--r-xl);width:100%;max-width:720px;max-height:92vh;overflow-y:auto;transform:scale(.95) translateY(18px);transition:transform .35s var(--spring);box-shadow:0 40px 100px rgba(0,0,0,.25)}
+.modal-bg.open .modal-box{transform:scale(1) translateY(0)}
+.modal-hdr{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--border)}
+.modal-x{width:34px;height:34px;border-radius:50%;background:var(--warm-gray);display:flex;align-items:center;justify-content:center;font-size:.95rem;color:var(--text-mid);cursor:pointer;transition:all .22s;border:none}
+.modal-x:hover{background:rgba(240,141,57,.12);color:var(--g3);transform:rotate(90deg)}
+.modal-body{display:grid;grid-template-columns:1fr 1fr;gap:0}
+.modal-img-wrap{
+  background:linear-gradient(135deg,var(--warm-gray),var(--silver-lt));
+  aspect-ratio:1;
+  display:flex;align-items:center;justify-content:center;
+  border-radius:0 0 0 var(--r-xl);overflow:hidden;
+  cursor:zoom-in;position:relative;
+}
+.modal-img-wrap img{width:100%;height:100%;object-fit:cover;transition:transform .4s}
+.modal-img-wrap:hover img{transform:scale(1.04)}
+.modal-img-zoom-hint{
+  position:absolute;bottom:10px;right:10px;
+  background:rgba(0,0,0,.5);color:#fff;
+  font-size:.65rem;padding:4px 9px;border-radius:99px;
+  backdrop-filter:blur(6px);pointer-events:none;
+}
+.modal-img-ph{font-size:5rem;flex-direction:column;gap:10px;display:flex;align-items:center;justify-content:center;width:100%;height:100%}
+.modal-info{padding:22px}
+.modal-cat-badge{display:inline-block;padding:4px 12px;border-radius:99px;font-size:.66rem;font-weight:700;margin-bottom:12px}
+.modal-name{font-family:var(--ff-d);font-size:1.4rem;font-weight:700;color:var(--text);line-height:1.25;margin-bottom:8px}
+.modal-price{font-family:var(--ff-d);font-size:1.5rem;font-weight:700;color:var(--g3);margin-bottom:12px}
+.modal-price.req{font-size:.95rem;font-family:var(--ff-b);font-style:italic;font-weight:400;color:var(--text-light)}
+.modal-desc{font-size:.84rem;color:var(--text-mid);line-height:1.75;margin-bottom:16px}
+.modal-qty{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.modal-qty-lbl{font-size:.74rem;font-weight:700;color:var(--text-mid);text-transform:uppercase;letter-spacing:.08em}
+.qty-ctrl{display:flex;align-items:center;border:2px solid var(--g2);border-radius:10px;overflow:hidden}
+.qty-b{width:34px;height:34px;display:flex;align-items:center;justify-content:center;background:rgba(255,200,30,.12);color:var(--text);font-size:1rem;font-weight:700;cursor:pointer;transition:background .18s;border:none;font-family:var(--ff-b)}
+.qty-b:hover{background:rgba(255,200,30,.32)}
+.qty-n{min-width:38px;text-align:center;font-weight:700;font-size:.95rem;color:var(--text)}
+.modal-btns{display:flex;flex-direction:column;gap:8px}
+.btn-acart-lg{width:100%;padding:11px;border-radius:var(--r);background:var(--grad-gold);color:var(--text);font-size:.84rem;font-weight:700;border:none;cursor:pointer;box-shadow:var(--shadow-sm);transition:all .25s var(--spring)}
+.btn-acart-lg:hover{transform:translateY(-2px);box-shadow:var(--shadow-md)}
+.btn-wa-lg{width:100%;padding:10px;border-radius:var(--r);background:#25d366;color:#fff;font-size:.82rem;font-weight:700;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;transition:all .25s}
+.btn-wa-lg:hover{background:#20ba5a;transform:translateY(-1px)}
+.btn-call-lg{width:100%;padding:10px;border-radius:var(--r);background:rgba(255,107,53,.1);color:var(--call);font-size:.82rem;font-weight:700;border:1.5px solid rgba(255,107,53,.2);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;transition:all .25s;text-decoration:none}
+.btn-call-lg:hover{background:var(--call);color:#fff;border-color:var(--call)}
+
+/* ══════════════════ ABOUT ══════════════════ */
+.about-sec{padding:50px 0;background:linear-gradient(135deg,#1A1A1A 0%,#2A2A2A 55%,#1A1A1A 100%);position:relative;overflow:hidden}
+.about-sec::before{content:'';position:absolute;inset:0;background-image:repeating-linear-gradient(-45deg,rgba(255,200,30,.03) 0,rgba(255,200,30,.03) 1px,transparent 0,transparent 50%);background-size:28px 28px}
+.about-in{max-width:1100px;margin:0 auto;padding:0 20px;display:grid;grid-template-columns:1fr 1fr;gap:44px;align-items:center;position:relative;z-index:1}
+.about-left .sec-eyebrow{color:var(--g4)}
+.about-left .sec-title{color:#fff}
+.about-txt{color:rgba(255,255,255,.62);font-size:.86rem;line-height:1.85;margin-bottom:12px}
+.about-stats{display:flex;gap:22px;margin-top:22px;flex-wrap:wrap}
+.astat strong{font-family:var(--ff-d);font-size:1.7rem;font-weight:700;color:var(--g4);display:block}
+.astat span{font-size:.66rem;color:rgba(255,255,255,.42);font-weight:500;letter-spacing:.06em;text-transform:uppercase}
+.about-right{background:rgba(255,255,255,.05);border:1px solid rgba(255,200,30,.14);border-radius:var(--r-xl);padding:28px;text-align:center;backdrop-filter:blur(10px)}
+.at-title{font-family:var(--ff-d);color:var(--g4);font-size:1rem;font-style:italic;margin-bottom:14px}
+.at-text{font-size:1rem;color:rgba(255,255,255,.8);line-height:2.2}
+.at-text strong{color:var(--g2);font-size:1.04rem}
+
+/* ══════════════════ MAP ══════════════════ */
+.map-sec{padding:50px 0;background:var(--white)}
+.map-in{max-width:1100px;margin:0 auto;padding:0 20px}
+.map-grid{display:grid;grid-template-columns:1fr 1.8fr;gap:30px;align-items:start;margin-top:32px}
+.map-info h3{font-family:var(--ff-d);font-size:1.25rem;font-weight:700;font-style:italic;color:var(--text);margin-bottom:16px}
+.map-det{display:flex;align-items:flex-start;gap:10px;margin-bottom:13px}
+.md-icon{width:36px;height:36px;border-radius:var(--r);background:linear-gradient(135deg,rgba(255,212,90,.18),rgba(252,191,73,.18));display:flex;align-items:center;justify-content:center;font-size:.95rem;flex-shrink:0}
+.md-text strong{display:block;font-size:.8rem;font-weight:700;color:var(--text);margin-bottom:2px}
+.md-text a,.md-text span{color:var(--text-mid);font-size:.78rem;text-decoration:none;line-height:1.55}
+.md-text a:hover{color:var(--g3)}
+.btn-map{display:inline-flex;align-items:center;gap:8px;margin-top:18px;padding:10px 18px;border-radius:var(--r);background:var(--grad-gold);color:var(--text);font-weight:700;font-size:.8rem;box-shadow:var(--shadow-sm);transition:all .3s var(--spring);border:none;cursor:pointer;text-decoration:none}
+.btn-map:hover{transform:translateY(-3px);box-shadow:var(--shadow-md)}
+.map-embed{border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--shadow-md);line-height:0}
+.map-embed iframe{width:100%;height:320px;border:none;display:block}
+
+/* ══════════════════ CART ══════════════════ */
+.cart-ov{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:3000;opacity:0;pointer-events:none;transition:opacity .3s;backdrop-filter:blur(4px)}
+.cart-ov.open{opacity:1;pointer-events:all}
+.cart-panel{position:fixed;top:0;right:-480px;width:min(480px,100vw);height:100vh;background:#fff;z-index:3001;transition:right .4s var(--reveal);display:flex;flex-direction:column;box-shadow:-20px 0 60px rgba(0,0,0,.13)}
+.cart-panel.open{right:0}
+.cp-hdr{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--border);background:linear-gradient(135deg,rgba(255,212,90,.08),rgba(252,191,73,.06))}
+.cp-hdr h3{font-family:var(--ff-d);font-size:1.05rem;font-weight:700;font-style:italic;color:var(--text)}
+.cp-close{width:30px;height:30px;border-radius:50%;background:var(--warm-gray);display:flex;align-items:center;justify-content:center;font-size:.85rem;color:var(--text-mid);cursor:pointer;transition:all .22s;border:none}
+.cp-close:hover{background:rgba(240,141,57,.1);color:var(--g3);transform:rotate(90deg)}
+.cp-items{flex:1;overflow-y:auto;padding:12px}
+.cp-empty{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;color:var(--text-light);padding:40px;text-align:center}
+.cp-empty-icon{font-size:3rem;opacity:.28;animation:float 4s ease-in-out infinite}
+.ci{display:flex;align-items:center;gap:10px;padding:10px;border-radius:var(--r);background:var(--warm-gray);margin-bottom:8px}
+.ci-ph{width:50px;height:50px;border-radius:var(--r);background:linear-gradient(135deg,rgba(255,200,30,.12),rgba(252,191,73,.16));display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0;overflow:hidden}
+.ci-ph img{width:100%;height:100%;object-fit:cover;border-radius:var(--r)}
+.ci-info{flex:1;min-width:0}
+.ci-name{font-size:.8rem;font-weight:700;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ci-price{font-size:.72rem;color:var(--text-light);font-style:italic;margin-top:2px}
+.ci-qty{display:flex;align-items:center;gap:3px;flex-shrink:0}
+.cqb{width:24px;height:24px;border-radius:7px;background:#fff;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:700;color:var(--text);cursor:pointer;transition:all .18s}
+.cqb:hover{background:var(--g4);color:var(--text)}
+.cqn{min-width:20px;text-align:center;font-size:.82rem;font-weight:700}
+.ci-del{background:none;border:none;color:var(--text-light);cursor:pointer;font-size:.78rem;padding:3px;transition:color .18s}
+.ci-del:hover{color:#ef4444}
+.cp-foot{padding:14px 18px 18px;border-top:1px solid var(--border);background:var(--warm-gray)}
+.cp-total{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px}
+.cp-tlbl{font-size:.8rem;color:var(--text-light)}
+.cp-tval{font-family:var(--ff-d);font-size:1.15rem;font-weight:700;color:var(--text)}
+.cp-sub{font-size:.7rem;color:var(--g3);margin-bottom:12px;font-style:italic}
+.btn-checkout{width:100%;height:44px;background:linear-gradient(135deg,#1ebe57,#25d366);color:#fff;border-radius:var(--r);font-weight:700;font-size:.84rem;display:flex;align-items:center;justify-content:center;gap:8px;border:none;cursor:pointer;box-shadow:0 4px 18px rgba(37,211,102,.32);transition:all .3s var(--spring)}
+.btn-checkout:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(37,211,102,.48)}
+.btn-call-ck{width:100%;height:38px;margin-top:7px;background:rgba(255,107,53,.1);color:var(--call);border:none;border-radius:var(--r);font-weight:700;font-size:.78rem;display:flex;align-items:center;justify-content:center;gap:8px;cursor:pointer;transition:all .22s;text-decoration:none}
+.btn-call-ck:hover{background:var(--call);color:#fff}
+
+/* ══════════════════ FOOTER ══════════════════ */
+.footer{background:#1A1A1A;padding:44px 24px 20px;color:rgba(255,255,255,.52)}
+.footer-in{max-width:1440px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:36px;margin-bottom:28px}
+.f-logo{font-family:var(--ff-d);font-size:1.2rem;font-weight:700;color:var(--g4);margin-bottom:10px;font-style:italic}
+.f-p{font-size:.78rem;line-height:1.8;color:rgba(255,255,255,.42);margin-bottom:14px}
+.f-col h4{color:rgba(255,255,255,.8);font-size:.76rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:12px}
+.f-col ul{list-style:none}
+.f-col ul li{margin-bottom:8px}
+.f-col ul li a{color:rgba(255,255,255,.4);font-size:.76rem;transition:color .18s;text-decoration:none;cursor:pointer}
+.f-col ul li a:hover{color:var(--g4)}
+.footer-bot{border-top:1px solid rgba(255,255,255,.07);padding-top:14px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.f-copy{font-size:.66rem;color:rgba(255,255,255,.25)}
+
+/* ══════════════════ FABS ══════════════════ */
+.wa-fab{position:fixed;bottom:24px;right:24px;z-index:999;width:54px;height:54px;background:#25d366;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.5rem;box-shadow:0 4px 24px rgba(37,211,102,.42);cursor:pointer;transition:all .3s var(--spring);text-decoration:none}
+.wa-fab::before,.wa-fab::after{content:'';position:absolute;inset:-6px;border-radius:50%;border:2px solid rgba(37,211,102,.24);animation:ringPulse 2.5s ease-out infinite}
+.wa-fab::after{animation-delay:1.25s}
+.wa-fab:hover{transform:scale(1.1) translateY(-3px);box-shadow:0 10px 36px rgba(37,211,102,.58)}
+.call-fab{position:fixed;bottom:90px;right:24px;z-index:999;width:46px;height:46px;background:var(--call);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1rem;box-shadow:0 4px 18px rgba(255,107,53,.38);cursor:pointer;transition:all .3s var(--spring);text-decoration:none}
+.call-fab:hover{transform:scale(1.1) translateY(-3px)}
+.back-top{position:fixed;bottom:24px;left:24px;z-index:999;width:38px;height:38px;background:var(--warm-gray);border-radius:50%;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:.88rem;color:var(--text-mid);cursor:pointer;opacity:0;transform:translateY(10px);transition:all .32s var(--spring);pointer-events:none}
+.back-top.visible{opacity:1;transform:none;pointer-events:all}
+.back-top:hover{background:var(--g4);border-color:var(--g2);color:var(--text)}
+.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(80px);background:rgba(26,26,26,.96);color:#fff;padding:9px 18px;border-radius:99px;font-size:.78rem;font-weight:600;z-index:9000;opacity:0;pointer-events:none;transition:all .4s var(--spring);backdrop-filter:blur(12px);border:1px solid rgba(255,200,30,.2);white-space:nowrap}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.contact-tab{position:fixed;right:0;top:50%;transform:translateY(-50%);z-index:500;background:var(--grad-gold);color:var(--text);font-size:.7rem;font-weight:700;padding:14px 8px;border-radius:10px 0 0 10px;writing-mode:vertical-lr;text-orientation:mixed;letter-spacing:.1em;cursor:pointer;box-shadow:var(--shadow-md);transition:all .3s var(--spring)}
+.contact-tab:hover{padding-right:14px}
+
+.reveal{opacity:0;transform:translateY(22px);transition:opacity .6s var(--reveal),transform .6s var(--reveal)}
+.reveal-l{opacity:0;transform:translateX(-28px);transition:opacity .6s var(--reveal),transform .6s var(--reveal)}
+.reveal-r{opacity:0;transform:translateX(28px);transition:opacity .6s var(--reveal),transform .6s var(--reveal)}
+.reveal.vis,.reveal-l.vis,.reveal-r.vis{opacity:1;transform:none}
+
+/* ══════════════════ RESPONSIVE ══════════════════ */
+@media(max-width:1280px){.pgrid{grid-template-columns:repeat(4,1fr)}}
+@media(max-width:1100px){
+  .about-in{grid-template-columns:1fr;gap:30px}
+  .map-grid{grid-template-columns:1fr}
+  .footer-in{grid-template-columns:1fr 1fr;gap:24px}
+  .pgrid{grid-template-columns:repeat(3,1fr)}
+}
+@media(max-width:900px){
+  .nav-links{display:none}
+  .hamburger{display:flex}
+  .contact-tab{display:none}
+  .desk-search{display:none}
+}
+@media(max-width:768px){
+  :root{--hdr-h:58px}
+  .hero{padding:40px 0;min-height:50vh}
+  .hero-title{font-size:clamp(1.9rem,7vw,2.8rem)}
+  .pgrid{grid-template-columns:repeat(2,1fr);gap:10px}
+  .modal-body{grid-template-columns:1fr}
+  .footer-in{grid-template-columns:1fr;gap:20px}
+  .about-sec,.map-sec,.products-sec{padding:36px 0}
+  .cart-btn span:not(.cbadge){display:none}
+  .cart-btn{padding:8px 12px}
+}
+@media(max-width:480px){
+  .nav{padding:0 12px;gap:0}
+  .logo{margin-right:auto}
+  .logo-img{width:40px;height:40px}
+  .logo-name{font-size:.84rem}
+  .hero{min-height:45vh;padding:32px 0}
+  .hero-title{font-size:clamp(1.7rem,8vw,2.4rem)}
+  .hero-btns{flex-direction:column;align-items:center;gap:10px}
+  .btn-gold,.btn-outline{width:100%;max-width:260px;justify-content:center}
+  .pgrid{grid-template-columns:1fr 1fr;gap:9px}
+  .fb{padding:6px 10px;font-size:.7rem}
+  .hero-badges{display:grid;grid-template-columns:1fr 1fr;gap:8px;width:100%}
+  .hb{justify-content:center}
+}
+</style>
+</head>
+<body>
+
+<!-- ══════ HEADER ══════ -->
+<header class="hdr" id="hdr">
+  <nav class="nav">
+    <a href="#" class="logo">
+      <img src="logo.png" class="logo-img" alt="Sri Balaji Aluminium Logo">
+      <div>
+        <div class="logo-name">Sri Balaji Aluminium</div>
+        <div class="logo-sub">Since 1998 · Salem, Tamil Nadu</div>
+      </div>
+    </a>
+
+    <!-- Desktop Nav Links -->
+    <div class="nav-links">
+      <button class="nl active" onclick="sTo('hero')">Home</button>
+
+      <!-- Aluminium -->
+      <div class="drop-wrap">
+        <button class="nl">🪣 Aluminium <span class="chev">▾</span></button>
+        <div class="simple-dd">
+          <div class="mega-section-title">Aluminium</div>
+          <div class="di" onclick="filterCat('Kitchenware')"><span class="di-icon">🍳</span> Kitchenware</div>
+          <div class="di" onclick="filterCat('Hotelware')"><span class="di-icon">🏨</span> Hotelware</div>
+        </div>
+      </div>
+
+      <!-- Stainless Steel -->
+      <div class="drop-wrap">
+        <button class="nl">🥘 Stainless Steel <span class="chev">▾</span></button>
+        <div class="simple-dd">
+          <div class="mega-section-title">Stainless Steel</div>
+          <div class="di" onclick="filterCat('Kitchenware')"><span class="di-icon">🍳</span> Kitchenware</div>
+          <div class="di" onclick="filterCat('Hotelware')"><span class="di-icon">🏨</span> Hotelware</div>
+          <div class="di" onclick="filterCat('Cutlery')"><span class="di-icon">🍴</span> Cutlery</div>
+        </div>
+      </div>
+
+      <!-- Brass -->
+      <div class="drop-wrap">
+        <button class="nl">🔶 Brass <span class="chev">▾</span></button>
+        <div class="simple-dd">
+          <div class="mega-section-title">Brass</div>
+          <div class="di" onclick="filterCat('Brass')"><span class="di-icon">🏠</span> Household</div>
+          <div class="di" onclick="filterCat('Pooja Articles')"><span class="di-icon">🙏</span> Pooja Items</div>
+        </div>
+      </div>
+
+      <!-- Copper -->
+      <div class="drop-wrap">
+        <button class="nl">🟤 Copper <span class="chev">▾</span></button>
+        <div class="simple-dd">
+          <div class="mega-section-title">Copper</div>
+          <div class="di" onclick="filterCat('Copper')"><span class="di-icon">💧</span> Water Bottles</div>
+          <div class="di" onclick="filterCat('Pooja Articles')"><span class="di-icon">🙏</span> Pooja Items</div>
+          <div class="di" onclick="filterCat('Copper')"><span class="di-icon">🥣</span> Health Utensils</div>
+        </div>
+      </div>
+
+      <!-- Appliances & Brands — MEGA with flyout -->
+      <div class="drop-wrap">
+        <button class="nl">⚡ Appliances &amp; Brands <span class="chev">▾</span></button>
+        <div class="mega-dd">
+          <div class="mega-section-title">Appliances &amp; Brands</div>
+
+          <!-- Cookers flyout -->
+          <div class="has-flyout">
+            <div class="di"><span class="di-icon">🍲</span> Cookers <span class="di-arrow">▶</span></div>
+            <div class="flyout">
+              <div class="fly-title">Cooker Brands</div>
+              <div class="fi" onclick="filterBrand('Prestige')">🟡 Prestige</div>
+              <div class="fi" onclick="filterBrand('Butterfly')">🦋 Butterfly</div>
+              <div class="fi" onclick="filterBrand('Ultra')">🔵 Ultra</div>
+              <div class="fi" onclick="filterBrand('Supreme')">⭐ Supreme</div>
+              <div class="fi" onclick="filterBrand('Diamond')">💎 Diamond</div>
+            </div>
+          </div>
+
+          <!-- Mixie flyout -->
+          <div class="has-flyout">
+            <div class="di"><span class="di-icon">🌀</span> Mixie <span class="di-arrow">▶</span></div>
+            <div class="flyout">
+              <div class="fly-title">Mixie Brands</div>
+              <div class="fi" onclick="filterBrand('Preethi')">🔴 Preethi</div>
+              <div class="fi" onclick="filterBrand('Ultra')">🔵 Ultra</div>
+              <div class="fi" onclick="filterBrand('Vidiem')">🟢 Vidiem</div>
+            </div>
+          </div>
+
+          <!-- Wet Grinder flyout -->
+          <div class="has-flyout">
+            <div class="di"><span class="di-icon">⚙️</span> Wet Grinder <span class="di-arrow">▶</span></div>
+            <div class="flyout">
+              <div class="fly-title">Wet Grinder Brands</div>
+              <div class="fi" onclick="filterBrand('Ultra')">🔵 Ultra</div>
+              <div class="fi" onclick="filterBrand('Vijayalakshmi')">🟠 Vijayalakshmi</div>
+              <div class="fi" onclick="filterBrand('Amirthaa')">🟣 Amirthaa</div>
+            </div>
+          </div>
+
+          <div style="border-top:1px solid var(--border);margin:4px 0 2px"></div>
+          <div class="di" onclick="filterCat('Appliances')"><span class="di-icon">⚡</span> All Appliances</div>
+        </div>
+      </div>
+
+      <button class="nl" onclick="sTo('about-sec')">About</button>
+      <button class="nl" onclick="sTo('map-sec')">Contact</button>
+    </div>
+
+    <!-- Desktop Search + Cart -->
+    <div class="nav-actions">
+      <div class="desk-search" id="deskSearch">
+        <div class="desk-search-form">
+          <input type="text" class="desk-search-inp" id="deskSearchInp"
+                 placeholder="Search products…"
+                 oninput="liveSearch(this.value,'desk')"
+                 onkeydown="handleSearchKey(event,'desk')">
+          <button class="desk-search-icon" onclick="triggerSearchAll('desk')" title="Search">🔍</button>
+        </div>
+        <div class="search-dropdown" id="deskSearchDD"></div>
+      </div>
+
+      <button class="cart-btn" onclick="openCart()">
+        🛒 <span>Cart</span>
+        <span class="cbadge" id="cbadge">0</span>
+      </button>
+    </div>
+
+    <button class="hamburger" id="hmb" onclick="toggleMob()">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+</header>
+
+<!-- ══════ MOBILE NAV ══════ -->
+<div class="mobile-nav" id="mobNav">
+  <div class="mob-nav-header">
+    <div class="mob-nav-title">🪣 Sri Balaji Aluminium</div>
+    <button class="mob-close" onclick="toggleMob()">✕</button>
+  </div>
+
+  <!-- ── Prominent Mobile Search Bar ── -->
+  <div class="mob-search-bar">
+    <span class="mob-search-label">Search Products</span>
+    <div class="mob-search-wrap">
+      <span class="mob-search-icon">🔍</span>
+      <input type="text" class="mob-search-inp" id="mobSearchInp"
+             placeholder="e.g. biriyani pot, tawa, cooker…"
+             oninput="liveSearch(this.value,'mob')"
+             onkeydown="handleSearchKey(event,'mob')">
+      <button class="mob-search-clear" id="mobSearchClear" onclick="clearMobSearch()">✕</button>
+      <button class="mob-search-btn" onclick="mobDoSearch()">Search</button>
+    </div>
+  </div>
+
+  <!-- Mobile Search Results -->
+  <div class="mob-search-results" id="mobSearchResults"></div>
+
+  <!-- Mobile Nav Links -->
+  <div class="mob-links-area" id="mobLinksArea">
+    <a class="mob-link" onclick="navGo('hero')">🏠 Home</a>
+
+    <!-- Aluminium accordion -->
+    <div class="mob-acc-hdr" onclick="toggleAcc(this)">
+      🪣 Aluminium <span class="chev">▾</span>
+    </div>
+    <div class="mob-acc-body">
+      <div class="mob-sub-item" onclick="navFilter('Kitchenware')">🍳 Kitchenware</div>
+      <div class="mob-sub-item" onclick="navFilter('Hotelware')">🏨 Hotelware</div>
+    </div>
+
+    <!-- Stainless Steel accordion -->
+    <div class="mob-acc-hdr" onclick="toggleAcc(this)">
+      🥘 Stainless Steel <span class="chev">▾</span>
+    </div>
+    <div class="mob-acc-body">
+      <div class="mob-sub-item" onclick="navFilter('Kitchenware')">🍳 Kitchenware</div>
+      <div class="mob-sub-item" onclick="navFilter('Hotelware')">🏨 Hotelware</div>
+      <div class="mob-sub-item" onclick="navFilter('Cutlery')">🍴 Cutlery</div>
+    </div>
+
+    <!-- Brass -->
+    <div class="mob-acc-hdr" onclick="toggleAcc(this)">
+      🔶 Brass <span class="chev">▾</span>
+    </div>
+    <div class="mob-acc-body">
+      <div class="mob-sub-item" onclick="navFilter('Brass')">🏠 Household</div>
+      <div class="mob-sub-item" onclick="navFilter('Pooja Articles')">🙏 Pooja Items</div>
+    </div>
+
+    <!-- Copper -->
+    <div class="mob-acc-hdr" onclick="toggleAcc(this)">
+      🟤 Copper <span class="chev">▾</span>
+    </div>
+    <div class="mob-acc-body">
+      <div class="mob-sub-item" onclick="navFilter('Copper')">💧 Water Bottles</div>
+      <div class="mob-sub-item" onclick="navFilter('Pooja Articles')">🙏 Pooja Items</div>
+      <div class="mob-sub-item" onclick="navFilter('Copper')">🥣 Health Utensils</div>
+    </div>
+
+    <!-- Appliances accordion -->
+    <div class="mob-acc-hdr" onclick="toggleAcc(this)">
+      ⚡ Appliances &amp; Brands <span class="chev">▾</span>
+    </div>
+    <div class="mob-acc-body">
+      <div class="mob-sub-section">Cookers</div>
+      <div class="mob-sub-item" onclick="navFilter('Appliances')">🟡 Prestige</div>
+      <div class="mob-sub-item" onclick="navFilter('Appliances')">🦋 Butterfly</div>
+      <div class="mob-sub-item" onclick="navFilter('Appliances')">🔵 Ultra</div>
+      <div class="mob-sub-item" onclick="navFilter('Appliances')">⭐ Supreme</div>
+      <div class="mob-sub-item" onclick="navFilter('Appliances')">💎 Diamond</div>
+      <div class="mob-sub-section" style="margin-top:8px">Mixie</div>
+      <div class="mob-sub-item" onclick="navFilter('Appliances')">🔴 Preethi</div>
+      <div class="mob-sub-item" onclick="navFilter('Appliances')">🔵 Ultra</div>
+      <div class="mob-sub-item" onclick="navFilter('Appliances')">🟢 Vidiem</div>
+      <div class="mob-sub-section" style="margin-top:8px">Wet Grinder</div>
+      <div class="mob-sub-item" onclick="navFilter('Appliances')">🔵 Ultra</div>
+      <div class="mob-sub-item" onclick="navFilter('Appliances')">🟠 Vijayalakshmi</div>
+      <div class="mob-sub-item" onclick="navFilter('Appliances')">🟣 Amirthaa</div>
+    </div>
+
+    <div class="mob-link" onclick="navGo('about-sec')">ℹ️ About Us</div>
+    <div class="mob-link" onclick="navGo('map-sec')">📍 Contact &amp; Location</div>
+
+    <div class="mob-actions">
+      <a href="tel:+919443274173" class="btn-gold" style="justify-content:center">📞 94432 74173</a>
+      <a href="https://wa.me/919894432232" target="_blank" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:12px;border-radius:12px;background:#25d366;color:#fff;font-weight:700;font-size:.84rem;text-decoration:none">💬 WhatsApp Order</a>
+    </div>
+  </div>
+</div>
+
+<!-- Ticker -->
+<div class="ticker">
+  <div class="tk-track">
+    <span class="tk-item">🆕 New Launch – Latest Arrivals!</span><span class="tk-sep"></span>
+    <span class="tk-item">🍳 Kitchenware – Al, Steel & Copper</span><span class="tk-sep"></span>
+    <span class="tk-item">🏨 Hotelware – Bulk Orders Welcome</span><span class="tk-sep"></span>
+    <span class="tk-item">🙏 Pooja Articles – Brass & Copper</span><span class="tk-sep"></span>
+    <span class="tk-item">⚡ Home Appliances – Top Brands</span><span class="tk-sep"></span>
+    <span class="tk-item">📍 251, Muniappan Koil St, Shevapet, Salem – 636002</span><span class="tk-sep"></span>
+    <span class="tk-item">📞 94432 74173 · 98944 32232</span><span class="tk-sep"></span>
+    <span class="tk-item">✅ Trusted Since 1998 · 25+ Years</span><span class="tk-sep"></span>
+    <span class="tk-item">🆕 New Launch – Latest Arrivals!</span><span class="tk-sep"></span>
+    <span class="tk-item">🍳 Kitchenware – Al, Steel & Copper</span><span class="tk-sep"></span>
+    <span class="tk-item">🏨 Hotelware – Bulk Orders Welcome</span><span class="tk-sep"></span>
+    <span class="tk-item">🙏 Pooja Articles – Brass & Copper</span><span class="tk-sep"></span>
+    <span class="tk-item">⚡ Home Appliances – Top Brands</span><span class="tk-sep"></span>
+    <span class="tk-item">📍 251, Muniappan Koil St, Shevapet, Salem – 636002</span><span class="tk-sep"></span>
+    <span class="tk-item">📞 94432 74173 · 98944 32232</span><span class="tk-sep"></span>
+    <span class="tk-item">✅ Trusted Since 1998 · 25+ Years</span><span class="tk-sep"></span>
+  </div>
+</div>
+
+<!-- ══════ HERO ══════ -->
+<section class="hero" id="hero">
+  <div class="hero-slides" id="heroSlides"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-inner">
+    <div class="hero-eyebrow"><div class="hed"></div> Salem's Most Trusted Since 1998</div>
+    <h1 class="hero-title">Premium<br><span class="ht-gold">Kitchen &</span> <span class="ht-italic">Hotelware</span></h1>
+    <p class="hero-sub">Wholesale & Retail — Aluminium, Stainless Steel, Brass, Copper Utensils & Appliances</p>
+    <p class="hero-tamil">செம்பு · பித்தளை · அலுமினியம் · ஸ்டீல் பாத்திரங்கள்</p>
+    <div class="hero-btns">
+      <button class="btn-gold" onclick="sTo('products-sec')">🪣 Explore Products</button>
+      <a href="https://wa.me/919894432232" target="_blank" class="btn-outline">💬 WhatsApp Order</a>
+    </div>
+    <div class="hero-badges">
+      <div class="hb"><span class="hb-icon">🏆</span><div class="hb-text"><strong>25+ Years</strong>Experience</div></div>
+      <div class="hb"><span class="hb-icon">✅</span><div class="hb-text"><strong>Genuine</strong>Quality</div></div>
+      <div class="hb"><span class="hb-icon">💰</span><div class="hb-text"><strong>Wholesale</strong>& Retail</div></div>
+      <div class="hb"><span class="hb-icon">🏨</span><div class="hb-text"><strong>Hotel</strong>Supply</div></div>
+    </div>
+  </div>
+  <div class="slide-indicators" id="slideIndicators"></div>
+</section>
+
+<div class="contact-tab" onclick="sTo('map-sec')">Contact Us</div>
+
+<!-- ══════ FILTER BAR ══════ -->
+<div class="fbar" id="products-sec">
+  <div class="fin">
+    <button class="fb act" data-cat="All" onclick="filterCat('All')">🏪 All</button>
+    <button class="fb" data-cat="New Launch" onclick="filterCat('New Launch')">🆕 New Launch</button>
+    <button class="fb" data-cat="Kitchenware" onclick="filterCat('Kitchenware')">🍳 Kitchenware</button>
+    <button class="fb" data-cat="Hotelware" onclick="filterCat('Hotelware')">🏨 Hotelware</button>
+    <button class="fb" data-cat="Pooja Articles" onclick="filterCat('Pooja Articles')">🙏 Pooja</button>
+    <button class="fb" data-cat="Appliances" onclick="filterCat('Appliances')">⚡ Appliances</button>
+    <div class="fsort">⇅ <select id="ss" onchange="renderProds()">
+      <option value="">Sort</option>
+      <option value="na">Name A–Z</option>
+      <option value="nd">Name Z–A</option>
+      <option value="pa">Price ↑</option>
+      <option value="pd">Price ↓</option>
+    </select></div>
+  </div>
+</div>
+
+<!-- ══════ PRODUCTS SECTION ══════ -->
+<section class="products-sec" id="products-grid-sec">
+  <div class="products-in">
+    <div class="sec-hdr reveal">
+      <div class="sec-eyebrow" id="prodSecEyebrow">Our Collection</div>
+      <h2 class="sec-title" id="prodSecTitle">Premium <span class="gold">Utensils</span> & Kitchenware</h2>
+      <div class="sec-div"></div>
+    </div>
+    <div class="pgrid" id="pgrid">
+      <div class="skel-card"><div class="skel sk-img"></div><div class="sk-body"><div class="skel sk-line"></div><div class="skel sk-line s"></div><div class="skel sk-line b"></div></div></div>
+      <div class="skel-card"><div class="skel sk-img"></div><div class="sk-body"><div class="skel sk-line"></div><div class="skel sk-line s"></div><div class="skel sk-line b"></div></div></div>
+      <div class="skel-card"><div class="skel sk-img"></div><div class="sk-body"><div class="skel sk-line"></div><div class="skel sk-line s"></div><div class="skel sk-line b"></div></div></div>
+      <div class="skel-card"><div class="skel sk-img"></div><div class="sk-body"><div class="skel sk-line"></div><div class="skel sk-line s"></div><div class="skel sk-line b"></div></div></div>
+      <div class="skel-card"><div class="skel sk-img"></div><div class="sk-body"><div class="skel sk-line"></div><div class="skel sk-line s"></div><div class="skel sk-line b"></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════ ABOUT ══════ -->
+<section class="about-sec" id="about-sec">
+  <div class="about-in">
+    <div class="about-left reveal-l">
+      <div class="sec-eyebrow">About Us</div>
+      <h2 class="sec-title">25+ Years of <span class="gold">Trusted Quality</span></h2>
+      <div class="sec-div" style="margin:14px 0 18px"></div>
+      <p class="about-txt">Sri Balaji Aluminium is Salem's most trusted name in kitchen and hotelware since 1998. Located in Shevapet, we serve thousands of households, restaurants, hotels, and caterers.</p>
+      <p class="about-txt">We carry an extensive range of aluminium, stainless steel, brass, copper utensils, and branded electrical appliances at the best prices.</p>
+      <div class="about-stats">
+        <div class="astat"><strong>25+</strong><span>Years in Business</span></div>
+        <div class="astat"><strong>10K+</strong><span>Happy Customers</span></div>
+        <div class="astat"><strong>5000+</strong><span>Products</span></div>
+        <div class="astat"><strong>1998</strong><span>Est. Salem</span></div>
+      </div>
+    </div>
+    <div class="about-right reveal-r">
+      <div class="at-title">🙏 வணக்கம் — Sri Balaji Aluminium</div>
+      <p class="at-text">அனைத்து வகையான<br>செம்பு, பித்தளை,<br>அலுமினியம் ஸ்டீல்<br>பாத்திரங்கள்<br><br><strong>மொத்தமாகவும்<br>சில்லறையாகவும்<br>கிடைக்கும்</strong></p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════ MAP ══════ -->
+<section class="map-sec" id="map-sec">
+  <div class="map-in">
+    <div class="sec-hdr reveal">
+      <div class="sec-eyebrow">Find Us</div>
+      <h2 class="sec-title">Visit Our <span class="gold">Store</span></h2>
+      <div class="sec-div"></div>
+    </div>
+    <div class="map-grid">
+      <div class="reveal-l">
+        <div class="map-info">
+          <h3>Sri Balaji Aluminium</h3>
+          <div class="map-det"><div class="md-icon">📍</div><div class="md-text"><strong>Address</strong><span>251, Muniappan Koil Street,<br>Shevapet, Salem – 636 002,<br>Tamil Nadu</span></div></div>
+          <div class="map-det"><div class="md-icon">📞</div><div class="md-text"><strong>Phone</strong><a href="tel:+919443274173">94432 74173</a></div></div>
+          <div class="map-det"><div class="md-icon">💬</div><div class="md-text"><strong>WhatsApp</strong><a href="https://wa.me/919894432232">98944 32232</a></div></div>
+          <div class="map-det"><div class="md-icon">🕐</div><div class="md-text"><strong>Hours</strong><span>Mon–Sat: 9 AM – 8 PM<br>Sunday: 10 AM – 5 PM</span></div></div>
+          <a href="https://maps.google.com/?q=Shevapet,Salem,Tamil+Nadu" target="_blank" class="btn-map">🗺️ View on Google Maps</a>
+        </div>
+      </div>
+      <div class="map-embed reveal-r">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3907.8!2d78.1498!3d11.6653!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2sShevapet%2C+Salem!5e0!3m2!1sen!2sin!4v1234567890" allowfullscreen="" loading="lazy"></iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════ FOOTER ══════ -->
+<footer class="footer">
+  <div class="footer-in">
+    <div>
+      <div class="f-logo">🪣 Sri Balaji Aluminium</div>
+      <p class="f-p">Salem's trusted kitchen & hotelware store since 1998. Wholesale & retail of aluminium, stainless steel, brass, copper utensils and branded appliances.</p>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <a href="https://wa.me/919894432232" target="_blank" style="display:inline-flex;align-items:center;gap:6px;padding:7px 12px;border-radius:99px;background:#25d366;color:#fff;font-size:.72rem;font-weight:700">💬 WhatsApp</a>
+        <a href="tel:+919443274173" style="display:inline-flex;align-items:center;gap:6px;padding:7px 12px;border-radius:99px;background:rgba(255,200,30,.14);color:var(--g4);font-size:.72rem;font-weight:700">📞 Call</a>
+      </div>
+    </div>
+    <div class="f-col"><h4>Products</h4><ul>
+      <li><a onclick="filterCat('New Launch')">New Launch</a></li>
+      <li><a onclick="filterCat('Kitchenware')">Kitchenware</a></li>
+      <li><a onclick="filterCat('Hotelware')">Hotelware</a></li>
+      <li><a onclick="filterCat('Pooja Articles')">Pooja Articles</a></li>
+      <li><a onclick="filterCat('Appliances')">Home Appliances</a></li>
+    </ul></div>
+    <div class="f-col"><h4>Brands</h4><ul>
+      <li><a href="#">Prestige</a></li><li><a href="#">Butterfly</a></li>
+      <li><a href="#">Ultra</a></li><li><a href="#">Preethi</a></li>
+      <li><a href="#">Vijayalakshmi</a></li>
+    </ul></div>
+    <div class="f-col"><h4>Contact</h4><ul>
+      <li><a href="tel:+919443274173">📞 94432 74173</a></li>
+      <li><a href="tel:+919894432232">📞 98944 32232</a></li>
+      <li><a>📍 Shevapet, Salem</a></li>
+      <li><a>🕐 Mon–Sat 9–8 PM</a></li>
+    </ul></div>
+  </div>
+  <div class="footer-bot">
+    <div class="f-copy">© 2024 Sri Balaji Aluminium, Salem. All Rights Reserved.</div>
+  </div>
+</footer>
+
+<!-- ══════ PRODUCT MODAL ══════ -->
+<div class="modal-bg" id="prodModal" onclick="closeModalBg(event)">
+  <div class="modal-box">
+    <div class="modal-hdr">
+      <div style="font-family:var(--ff-d);font-size:.95rem;font-style:italic;color:var(--text)">Product Details</div>
+      <button class="modal-x" onclick="closeProdModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<!-- ══════ LIGHTBOX (full image) ══════ -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+  <img class="lightbox-img" id="lightboxImg" src="" alt="">
+  <div class="lightbox-caption" id="lightboxCaption"></div>
+</div>
+
+<!-- ══════ CART ══════ -->
+<div class="cart-ov" id="cartOv" onclick="closeCart()"></div>
+<div class="cart-panel" id="cartPanel">
+  <div class="cp-hdr"><h3>🛒 Shopping Cart</h3><button class="cp-close" onclick="closeCart()">✕</button></div>
+  <div class="cp-items" id="cpItems"></div>
+  <div class="cp-foot" id="cpFoot" style="display:none">
+    <div class="cp-total"><span class="cp-tlbl">Total</span><span class="cp-tval" id="cpTotal">₹0</span></div>
+    <div class="cp-sub" id="cpSub"></div>
+    <button class="btn-checkout" onclick="checkoutWA()">💬 Order via WhatsApp</button>
+    <a href="tel:+919443274173" class="btn-call-ck">📞 Call to Order — 94432 74173</a>
+  </div>
+</div>
+
+<!-- FABs -->
+<a href="https://wa.me/919894432232?text=Vanakkam%20Sri%20Balaji%20Aluminium%20%F0%9F%99%8F" target="_blank" class="wa-fab">💬</a>
+<a href="tel:+919443274173" class="call-fab">📞</a>
+<button class="back-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+<div class="toast" id="toast"></div>
+
+<script>
+var firebaseConfig={
+  apiKey:"AIzaSyDLnKFPJ4m-f132LIzYo12qt5cgZLmIv5w",
+  authDomain:"sribalajialuminiums.firebaseapp.com",
+  projectId:"sribalajialuminiums",
+  storageBucket:"sribalajialuminiums.firebasestorage.app",
+  messagingSenderId:"37710086664",
+  appId:"1:37710086664:web:edfb1068297e8329e387bd"
+};
+firebase.initializeApp(firebaseConfig);
+var db=firebase.firestore();
+var WA='919894432232';
+
+var SEED_PRODUCTS=[
+  {productName:"Aluminium Biriyani Pot – 10L",price:0,category:"Hotelware",description:"Heavy-duty aluminium biriyani pot for hotel & home use. Thick walls for even heat distribution.",aliases:["biriyani vessel","large pot","hotel pot"],available:true,sortOrder:0},
+  {productName:"Aluminium Idly Plate – 4 Tier",price:0,category:"Kitchenware",description:"4-tier aluminium idly stand with plates. Makes 16 idlies per batch. Perfect for homes and hotels.",aliases:["idli plate","idly stand"],available:true,sortOrder:1},
+  {productName:"Aluminium Cooking Vessel – 5L",price:0,category:"Kitchenware",description:"5L everyday cooking vessel with thick bottom and easy grip handles.",aliases:["vessel","cooking pot","patram"],available:true,sortOrder:2},
+  {productName:"Aluminium Dosa Tawa – 30cm",price:0,category:"Kitchenware",description:"30cm flat dosa tawa with even heat distribution. Perfect for crispy dosas.",aliases:["tawa","dosa pan","griddle"],available:true,sortOrder:3},
+  {productName:"Aluminium Pressure Cooker – 3L",price:0,category:"Kitchenware",description:"3L aluminium pressure cooker with safety valve. Reliable for daily cooking.",aliases:["pressure cooker"],available:true,sortOrder:4},
+  {productName:"Aluminium Hotel Vessel – 25L",price:0,category:"Hotelware",description:"Heavy-duty 25L vessel for hotel and catering use. Bulk pricing available.",aliases:["hotel vessel","large vessel","catering"],available:true,sortOrder:5},
+  {productName:"Stainless Steel Dinner Plate",price:0,category:"Kitchenware",description:"Premium stainless steel dinner plate with mirror finish. Rust-free and hygienic.",aliases:["thali","plate"],available:true,sortOrder:6},
+  {productName:"Stainless Steel Tumbler – 200ml",price:0,category:"Kitchenware",description:"200ml stainless steel tumbler. Rust-free, durable, and easy to clean.",aliases:["glass","cup","tumbler"],available:true,sortOrder:7},
+  {productName:"Stainless Steel Serving Bowl",price:0,category:"Hotelware",description:"Serving bowl with lid, perfect for curries. Keeps food fresh.",aliases:["bowl","katori"],available:true,sortOrder:8},
+  {productName:"Stainless Steel Kitchen Set – 7 Pcs",price:0,category:"Kitchenware",description:"Complete 7-piece stainless steel kitchen set.",aliases:["kitchen set"],available:true,sortOrder:9},
+  {productName:"Brass Kuthu Vilakku",price:0,category:"Pooja Articles",description:"Traditional brass kuthu vilakku for pooja. Handcrafted with beautiful traditional designs.",aliases:["vilakku","lamp","deepam","puja lamp"],available:true,sortOrder:10},
+  {productName:"Brass Kalasam – Pooja Pot",price:0,category:"Pooja Articles",description:"Pure brass kalasam for pooja rituals. Traditional design with high-quality finish.",aliases:["kalasam","pooja pot"],available:true,sortOrder:11},
+  {productName:"Copper Water Pot – 2L",price:0,category:"Kitchenware",description:"Pure copper water pot with Ayurvedic health benefits. Keeps water cool naturally.",aliases:["copper pot","water vessel","tamra"],available:true,sortOrder:12},
+  {productName:"Copper Pooja Plate",price:0,category:"Pooja Articles",description:"Pure copper pooja plate with traditional engravings.",aliases:["copper thali","pooja plate"],available:true,sortOrder:13},
+  {productName:"Prestige Pressure Cooker – 5L",price:0,category:"Appliances",description:"Prestige ISI-marked pressure cooker in stainless steel.",aliases:["prestige cooker","cooker"],available:true,sortOrder:14},
+  {productName:"Preethi Mixer Grinder – 750W",price:0,category:"Appliances",description:"Preethi 750W mixer grinder with 3 jars. Powerful motor for everyday use.",aliases:["preethi mixer","mixer"],available:true,sortOrder:15},
+  {productName:"Ultra Wet Grinder – 2L",price:0,category:"Appliances",description:"Ultra 2L wet grinder with atta kneader. Perfect for idly and dosa batter.",aliases:["wet grinder","grinder"],available:true,sortOrder:16},
+  {productName:"New Arrival – Copper Health Tumbler",price:0,category:"New Launch",description:"Pure health-grade copper tumbler for Ayurvedic water drinking.",aliases:["copper glass","copper cup","new"],available:true,sortOrder:17},
+  {productName:"New Arrival – Steel Non-Stick Tawa",price:0,category:"New Launch",description:"Brand new non-stick coated steel tawa for healthier cooking.",aliases:["non stick","tawa","new"],available:true,sortOrder:18}
+];
+
+var HERO_SLIDES=[
+  {emoji:"🪣",title:"Premium Aluminium Collection",bg:"linear-gradient(135deg,#1a0a00,#3d1f00,#2a1200)"},
+  {emoji:"🥘",title:"Stainless Steel Kitchenware",bg:"linear-gradient(135deg,#0a0f1a,#1a2535,#0f1a28)"},
+  {emoji:"🔶",title:"Traditional Brass & Copper",bg:"linear-gradient(135deg,#1a0e00,#3d2800,#2a1800)"},
+  {emoji:"⚡",title:"Top Brand Appliances",bg:"linear-gradient(135deg,#001a0a,#003d1a,#001f10)"},
+  {emoji:"🏨",title:"Hotel & Catering Supply",bg:"linear-gradient(135deg,#1a0500,#3d0f00,#2a0800)"}
+];
+
+var allProducts=[],activeCat='All',searchQuery='',cart=[],curSlide=0,slTimer=null,modalQty=1,modalProdId=null;
+
+var EM={Aluminium:'🪣','Stainless Steel':'🥘',Brass:'🔶',Copper:'🟤',Appliances:'⚡',Kitchenware:'🍳',Hotelware:'🏨','Pooja Articles':'🙏','New Launch':'🆕',Cutlery:'🍴'};
+var BC={Aluminium:'b-al','Stainless Steel':'b-ss',Brass:'b-br',Copper:'b-cu',Appliances:'b-ap',Kitchenware:'b-kw',Hotelware:'b-hw','Pooja Articles':'b-pa','New Launch':'b-nl',Cutlery:'b-ss'};
+
+try{cart=JSON.parse(localStorage.getItem('sba_v5')||'[]')}catch(e){cart=[]}
+
+window.addEventListener('scroll',function(){
+  var y=window.scrollY;
+  document.getElementById('hdr').classList.toggle('scrolled',y>10);
+  document.getElementById('backTop').classList.toggle('visible',y>500);
+});
+
+function sTo(id){var el=document.getElementById(id);if(el)el.scrollIntoView({behavior:'smooth'})}
+function eh(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+
+/* ── Mobile Nav ── */
+function toggleMob(){
+  var mn=document.getElementById('mobNav'),hm=document.getElementById('hmb');
+  mn.classList.toggle('open');hm.classList.toggle('open');
+  document.body.style.overflow=mn.classList.contains('open')?'hidden':'';
+  if(mn.classList.contains('open')){
+    setTimeout(function(){document.getElementById('mobSearchInp').focus()},400);
+  }
+}
+function navGo(id){sTo(id);if(document.getElementById('mobNav').classList.contains('open'))toggleMob()}
+function navFilter(cat){filterCat(cat);if(document.getElementById('mobNav').classList.contains('open'))toggleMob()}
+
+/* Mobile accordion */
+function toggleAcc(hdr){
+  var body=hdr.nextElementSibling;
+  var isOpen=body.classList.contains('open');
+  // Close all
+  document.querySelectorAll('.mob-acc-body.open').forEach(function(b){b.classList.remove('open')});
+  document.querySelectorAll('.mob-acc-hdr.open').forEach(function(h){h.classList.remove('open')});
+  if(!isOpen){body.classList.add('open');hdr.classList.add('open')}
+}
+
+/* ── Reveal ── */
+function initReveal(){
+  var io=new IntersectionObserver(function(e){e.forEach(function(x){if(x.isIntersecting){x.target.classList.add('vis');io.unobserve(x.target)}})},{threshold:.08});
+  document.querySelectorAll('.reveal,.reveal-l,.reveal-r').forEach(function(el){io.observe(el)});
+}
+
+/* ── Hero Slides ── */
+function initHeroSlides(){
+  var container=document.getElementById('heroSlides');
+  var dots=document.getElementById('slideIndicators');
+  db.collection('slider').orderBy('order','asc').get()
+    .then(function(snap){
+      var slides=snap.empty?HERO_SLIDES:snap.docs.map(function(d){return d.data()}).filter(function(s){return s.imageUrl});
+      if(!slides||!slides.length)slides=HERO_SLIDES;
+      renderSlides(slides,container,dots);
+    }).catch(function(){renderSlides(HERO_SLIDES,container,dots)});
+}
+function renderSlides(slides,container,dots){
+  container.innerHTML=slides.map(function(s,i){
+    var bg=s.imageUrl?'background-image:url('+s.imageUrl+')':'background:'+s.bg;
+    var content=s.imageUrl?'':'<div style="height:100%;display:flex;align-items:center;justify-content:center;font-size:8rem;opacity:.12">'+s.emoji+'</div>';
+    return '<div class="hero-slide'+(i===0?' active':'')+'" style="'+bg+';background-size:cover;background-position:center">'+content+'</div>';
+  }).join('');
+  dots.innerHTML=slides.map(function(s,i){
+    return '<div class="slide-dot'+(i===0?' active':'')+'" onclick="goSlide('+i+')"></div>';
+  }).join('');
+  clearInterval(slTimer);
+  slTimer=setInterval(function(){goSlide((curSlide+1)%slides.length)},3500);
+}
+function goSlide(n){
+  var slides=document.querySelectorAll('.hero-slide');
+  var dots=document.querySelectorAll('.slide-dot');
+  if(!slides.length)return;
+  slides[curSlide].classList.remove('active');
+  if(dots[curSlide])dots[curSlide].classList.remove('active');
+  curSlide=n%slides.length;
+  slides[curSlide].classList.add('active');
+  if(dots[curSlide])dots[curSlide].classList.add('active');
+}
+
+/* ── Load Products ── */
+function loadProducts(){
+  db.collection('products').orderBy('sortOrder','asc').get()
+    .then(function(snap){
+      if(snap.empty){
+        var batch=db.batch();
+        SEED_PRODUCTS.forEach(function(p){var r=db.collection('products').doc();batch.set(r,Object.assign({},p,{createdAt:firebase.firestore.FieldValue.serverTimestamp(),updatedAt:firebase.firestore.FieldValue.serverTimestamp()}))});
+        batch.commit().catch(function(){});
+        allProducts=SEED_PRODUCTS.map(function(p,i){return Object.assign({id:'s'+i},p)});
+      }else{
+        allProducts=snap.docs.map(function(d){return Object.assign({id:d.id},d.data())}).filter(function(p){return p.available!==false});
+      }
+      renderProds();
+      db.collection('products').onSnapshot(function(s){
+        if(!s.empty){allProducts=s.docs.map(function(d){return Object.assign({id:d.id},d.data())}).filter(function(p){return p.available!==false});renderProds()}
+      });
+    }).catch(function(){
+      allProducts=SEED_PRODUCTS.map(function(p,i){return Object.assign({id:'s'+i},p)});
+      renderProds();
+    });
+}
+
+/* ── Filter by brand (searches product names/descriptions) ── */
+function filterBrand(brand){
+  activeCat='All';
+  searchQuery=brand;
+  document.querySelectorAll('.fb').forEach(function(t){t.classList.remove('act')});
+  document.querySelector('.fb[data-cat="All"]').classList.add('act');
+  updateSectionHeader();
+  renderProds();
+  var sec=document.getElementById('products-grid-sec');
+  if(sec)setTimeout(function(){sec.scrollIntoView({behavior:'smooth',block:'start'})},50);
+}
+
+/* ── Filter & Sort ── */
+function getFilteredProds(){
+  var list=allProducts.filter(function(p){
+    var catMatch=false;
+    if(activeCat==='All') catMatch=true;
+    else if(activeCat==='Kitchenware') catMatch=p.category==='Kitchenware'||p.category==='Aluminium'||p.category==='Stainless Steel'||p.category==='Copper';
+    else if(activeCat==='Hotelware') catMatch=p.category==='Hotelware';
+    else if(activeCat==='Pooja Articles') catMatch=p.category==='Pooja Articles'||p.category==='Brass';
+    else catMatch=p.category===activeCat;
+    if(!catMatch)return false;
+    if(searchQuery&&searchQuery.length>0){
+      var q=searchQuery.toLowerCase();
+      return (p.productName||'').toLowerCase().includes(q)
+        ||(p.category||'').toLowerCase().includes(q)
+        ||((p.aliases||[]).some(function(a){return a.toLowerCase().includes(q)}))
+        ||(p.description||'').toLowerCase().includes(q)
+        ||((p.brand||'').toLowerCase().includes(q));
+    }
+    return true;
+  });
+  var sort=document.getElementById('ss').value;
+  if(sort==='na')list=[].concat(list).sort(function(a,b){return(a.productName||'').localeCompare(b.productName||'')});
+  else if(sort==='nd')list=[].concat(list).sort(function(a,b){return(b.productName||'').localeCompare(a.productName||'')});
+  else if(sort==='pa')list=[].concat(list).sort(function(a,b){return(a.price||0)-(b.price||0)});
+  else if(sort==='pd')list=[].concat(list).sort(function(a,b){return(b.price||0)-(a.price||0)});
+  return list;
+}
+
+function filterCat(cat){
+  activeCat=cat;
+  searchQuery='';
+  var di=document.getElementById('deskSearchInp');
+  if(di)di.value='';
+  closeDeskDD();
+  document.querySelectorAll('.fb').forEach(function(t){t.classList.toggle('act',t.dataset.cat===cat)});
+  updateSectionHeader();
+  renderProds();
+  var sec=document.getElementById('products-grid-sec');
+  if(sec)setTimeout(function(){sec.scrollIntoView({behavior:'smooth',block:'start'})},50);
+}
+
+function updateSectionHeader(){
+  var ey=document.getElementById('prodSecEyebrow');
+  var ti=document.getElementById('prodSecTitle');
+  if(searchQuery){
+    ey.textContent='Search Results';
+    ti.innerHTML='Products matching <span class="gold">"'+eh(searchQuery)+'"</span>';
+  } else {
+    ey.textContent='Our Collection';
+    ti.innerHTML='Premium <span class="gold">Utensils</span> & Kitchenware';
+  }
+}
+
+/* ── Render Products ── */
+function renderProds(){
+  var list=getFilteredProds();
+  var g=document.getElementById('pgrid');
+  updateSectionHeader();
+
+  if(!list.length){
+    if(searchQuery){
+      g.innerHTML='<div class="no-results"><div class="no-results-em">🔍</div><p style="font-weight:700;margin-bottom:8px">No results for "'+eh(searchQuery)+'"</p><p style="font-size:.82rem">Try a different search or <button onclick="clearSearch()" style="background:none;border:none;color:var(--g3);font-weight:700;cursor:pointer;font-size:.82rem;text-decoration:underline">clear search</button></p></div>';
+    } else {
+      g.innerHTML='<div class="no-results"><div class="no-results-em">🔍</div><p>No products found in this category</p></div>';
+    }
+    return;
+  }
+
+  var bannerHtml='';
+  if(searchQuery){
+    bannerHtml='<div class="search-state-banner"><span class="ssb-text">Showing <strong>'+list.length+' results</strong> for "<strong>'+eh(searchQuery)+'</strong>"</span><button class="ssb-clear" onclick="clearSearch()">✕ Clear Search</button></div>';
+  }
+
+  g.innerHTML=bannerHtml+list.map(function(p,i){
+    var em=EM[p.category]||'🪣';
+    var bc=BC[p.category]||'b-al';
+    var imgH=p.imageUrl
+      ?'<img src="'+p.imageUrl+'" alt="'+eh(p.productName)+'" loading="lazy" onerror="this.parentNode.innerHTML=\'<div class=pcard-ph><span class=pcard-ph-em>'+em+'</span><span class=pcard-ph-lbl>'+eh(p.category||'')+'</span></div>\'">'
+      :'<div class="pcard-ph"><span class="pcard-ph-em">'+em+'</span><span class="pcard-ph-lbl">'+eh(p.category||'')+'</span></div>';
+    var prH=p.price>0
+      ?'<div class="pcard-price"><sup>₹</sup>'+p.price.toLocaleString('en-IN')+'</div>'
+      :'<div class="pcard-price req">📞 Price on Request</div>';
+    var inCart=cart.find(function(c){return c.id===p.id});
+    return '<div class="pcard" style="animation-delay:'+i*.04+'s">'
+      +'<div class="pcard-img" onclick="openProdModal(\''+p.id+'\')">'
+      +imgH
+      +'<div class="pcard-img-overlay"><span>👁️ View Details</span></div>'
+      +'<span class="pcat-badge '+bc+'">'+eh(p.category||'')+'</span>'
+      +'</div>'
+      +'<div class="pcard-body">'
+      +'<div class="pcard-name">'+eh(p.productName)+'</div>'
+      +'<div class="pcard-cat">'+em+' '+eh(p.category||'')+'</div>'
+      +prH
+      +'<div class="pcard-actions">'
+      +'<button class="btn-view" onclick="openProdModal(\''+p.id+'\')">👁️ View</button>'
+      +'<button class="btn-acart'+(inCart?' added':'')+'" id="cab-'+p.id+'" onclick="quickAddCart(\''+p.id+'\')">'+(inCart?'✓ Added':'🛒 Cart')+'</button>'
+      +'</div></div></div>';
+  }).join('');
+  initReveal();
+}
+
+function clearSearch(){
+  searchQuery='';
+  var di=document.getElementById('deskSearchInp');
+  if(di)di.value='';
+  var mi=document.getElementById('mobSearchInp');
+  if(mi)mi.value='';
+  clearMobSearch();
+  closeDeskDD();
+  updateSectionHeader();
+  renderProds();
+}
+
+/* ── Search ── */
+function liveSearch(q,src){
+  searchQuery=q||'';
+  if(src==='mob'){
+    var clr=document.getElementById('mobSearchClear');
+    if(clr)clr.classList.toggle('show',q.length>0);
+    if(q.length>=1){
+      var results=getSearchResults(q);
+      renderMobSearchResults(results,q);
+    } else {
+      renderMobSearchResults([]);
+    }
+  }
+  if(src==='desk'){
+    if(q.length<2){closeDeskDD();if(q.length===0){searchQuery='';renderProds();}return;}
+    renderDeskDropdown(q);
+  }
+  renderProds();
+  if(q.length>=2){
+    var sec=document.getElementById('products-grid-sec');
+    if(sec)sec.scrollIntoView({behavior:'smooth',block:'start'});
+  }
+}
+
+function getSearchResults(q){
+  if(!q||q.length<1)return[];
+  q=q.toLowerCase();
+  return allProducts.filter(function(p){
+    return(p.productName||'').toLowerCase().includes(q)
+      ||(p.category||'').toLowerCase().includes(q)
+      ||((p.aliases||[]).some(function(a){return a.toLowerCase().includes(q)}))
+      ||(p.description||'').toLowerCase().includes(q)
+      ||((p.brand||'').toLowerCase().includes(q));
+  }).slice(0,8);
+}
+
+/* Desktop dropdown — shows only product cards */
+function renderDeskDropdown(q){
+  var dd=document.getElementById('deskSearchDD');
+  var results=getSearchResults(q);
+  if(!results.length){
+    dd.innerHTML='<div class="sd-empty">No products found for "'+eh(q)+'"</div>';
+    dd.classList.add('open');return;
+  }
+  dd.innerHTML=results.slice(0,6).map(function(p){
+    var e=EM[p.category]||'🪣';
+    var img=p.imageUrl
+      ?'<div class="sd-item-img"><img src="'+p.imageUrl+'" alt="'+eh(p.productName)+'"></div>'
+      :'<div class="sd-item-img">'+e+'</div>';
+    return '<div class="sd-item" onclick="pickSearchResult(\''+p.id+'\')">'+img+'<div><div class="sd-item-name">'+eh(p.productName)+'</div><div class="sd-item-cat">'+eh(p.category||'')+'</div></div></div>';
+  }).join('')
+  +'<div class="sd-see-all" onclick="closeDeskDD()">See all '+results.length+' results below ↓</div>';
+  dd.classList.add('open');
+}
+
+function pickSearchResult(id){closeDeskDD();openProdModal(id)}
+function closeDeskDD(){var dd=document.getElementById('deskSearchDD');if(dd){dd.classList.remove('open');dd.innerHTML=''}}
+
+/* Mobile search results — products only */
+function renderMobSearchResults(results,q){
+  var panel=document.getElementById('mobSearchResults');
+  var area=document.getElementById('mobLinksArea');
+  if(!results||!results.length){
+    panel.classList.remove('show');panel.innerHTML='';
+    area.style.display='';return;
+  }
+  area.style.display='none';
+  panel.classList.add('show');
+  panel.innerHTML='<div style="padding:10px 18px 4px;font-size:.72rem;font-weight:700;color:var(--text-light);text-transform:uppercase;letter-spacing:.08em">'+results.length+' products found</div>'
+    +results.map(function(p){
+      var e=EM[p.category]||'🪣';
+      var img=p.imageUrl
+        ?'<div class="sd-item-img"><img src="'+p.imageUrl+'" alt="'+eh(p.productName)+'"></div>'
+        :'<div class="sd-item-img" style="font-size:1.4rem">'+e+'</div>';
+      return '<div class="sd-item" style="padding:12px 18px" onclick="mobPickResult(\''+p.id+'\')">'+img
+        +'<div style="flex:1;min-width:0"><div class="sd-item-name">'+eh(p.productName)+'</div><div class="sd-item-cat">'+eh(p.category||'')+'</div></div>'
+        +'<span style="font-size:.72rem;color:var(--g3);font-weight:700;flex-shrink:0">View →</span></div>';
+    }).join('')
+    +'<div class="sd-see-all" onclick="mobSeeAll()" style="margin:0">See all in collection →</div>';
+}
+
+function mobDoSearch(){
+  var q=document.getElementById('mobSearchInp').value;
+  if(!q)return;
+  toggleMob();
+  setTimeout(function(){
+    var sec=document.getElementById('products-grid-sec');
+    if(sec)sec.scrollIntoView({behavior:'smooth',block:'start'});
+  },400);
+}
+function mobPickResult(id){toggleMob();setTimeout(function(){openProdModal(id)},400)}
+function mobSeeAll(){
+  toggleMob();
+  setTimeout(function(){
+    var sec=document.getElementById('products-grid-sec');
+    if(sec)sec.scrollIntoView({behavior:'smooth',block:'start'});
+  },400);
+}
+function clearMobSearch(){
+  document.getElementById('mobSearchInp').value='';
+  document.getElementById('mobSearchClear').classList.remove('show');
+  searchQuery='';
+  renderMobSearchResults([]);
+  renderProds();
+}
+
+function handleSearchKey(e,src){
+  if(e.key==='Enter'){
+    closeDeskDD();
+    if(src==='mob'){mobDoSearch();}
+    else{var sec=document.getElementById('products-grid-sec');if(sec)sec.scrollIntoView({behavior:'smooth',block:'start'});}
+  }
+  if(e.key==='Escape')closeDeskDD();
+}
+function triggerSearchAll(src){
+  if(src==='desk'){
+    closeDeskDD();
+    var sec=document.getElementById('products-grid-sec');
+    if(sec)sec.scrollIntoView({behavior:'smooth',block:'start'});
+  }
+}
+
+document.addEventListener('click',function(e){
+  var ds=document.getElementById('deskSearch');
+  if(ds&&!ds.contains(e.target))closeDeskDD();
+});
+
+/* ── Lightbox ── */
+function openLightbox(src,name){
+  document.getElementById('lightboxImg').src=src;
+  document.getElementById('lightboxCaption').textContent=name||'';
+  document.getElementById('lightbox').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeLightbox(){
+  document.getElementById('lightbox').classList.remove('open');
+  document.body.style.overflow='';
+}
+
+/* ── Product Modal ── */
+function openProdModal(id){
+  var p=allProducts.find(function(x){return x.id===id});
+  if(!p)return;
+  modalProdId=id;modalQty=1;
+  var em=EM[p.category]||'🪣';
+  var bc=BC[p.category]||'b-al';
+  var imgH,hasImg=!!p.imageUrl;
+  if(hasImg){
+    imgH='<img src="'+p.imageUrl+'" alt="'+eh(p.productName)+'" style="width:100%;height:100%;object-fit:cover">'
+       +'<div class="modal-img-zoom-hint">🔍 Click to enlarge</div>';
+  } else {
+    imgH='<div class="modal-img-ph"><span style="font-size:5rem">'+em+'</span><span style="font-size:.8rem;color:var(--text-light)">'+eh(p.category||'')+'</span></div>';
+  }
+  var prH=p.price>0?'<div class="modal-price">₹'+p.price.toLocaleString('en-IN')+'</div>':'<div class="modal-price req">📞 Price on Request — Call for Quote</div>';
+  var waMsg='Vanakkam%20Sri%20Balaji%20Aluminium%20%F0%9F%99%8F%0AInterested%20in%3A%20'+encodeURIComponent(p.productName);
+  var clickFn=hasImg?'openLightbox(\''+p.imageUrl.replace(/'/g,"\\'")+'\',"'+eh(p.productName)+'")':'';
+  document.getElementById('modalBody').innerHTML=
+    '<div class="modal-img-wrap" '+(hasImg?'onclick="'+clickFn+'"':'')+'>'+imgH+'</div>'
+    +'<div class="modal-info">'
+    +'<span class="modal-cat-badge '+bc+'">'+em+' '+eh(p.category||'')+'</span>'
+    +'<div class="modal-name">'+eh(p.productName)+'</div>'
+    +prH
+    +(p.description?'<div class="modal-desc">'+eh(p.description)+'</div>':'')
+    +'<div class="modal-qty"><span class="modal-qty-lbl">Qty</span><div class="qty-ctrl"><button class="qty-b" onclick="mQty(-1)">−</button><span class="qty-n" id="mQtyN">1</span><button class="qty-b" onclick="mQty(1)">+</button></div></div>'
+    +'<div class="modal-btns">'
+    +'<button class="btn-acart-lg" onclick="addFromModal(\''+id+'\')">🛒 Add to Cart</button>'
+    +'<a href="https://wa.me/'+WA+'?text='+waMsg+'" target="_blank" class="btn-wa-lg">💬 WhatsApp Order</a>'
+    +'<a href="tel:+919443274173" class="btn-call-lg">📞 Call Now</a>'
+    +'</div></div>';
+  document.getElementById('prodModal').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeProdModal(){document.getElementById('prodModal').classList.remove('open');document.body.style.overflow=''}
+function closeModalBg(e){if(e.target===document.getElementById('prodModal'))closeProdModal()}
+function mQty(d){modalQty=Math.max(1,modalQty+d);document.getElementById('mQtyN').textContent=modalQty}
+
+function addFromModal(id){
+  var p=allProducts.find(function(x){return x.id===id});if(!p)return;
+  var existing=cart.find(function(c){return c.id===id});
+  if(existing)existing.qty+=modalQty;
+  else cart.push({id:id,name:p.productName,price:p.price||0,image:p.imageUrl||'',category:p.category||'',qty:modalQty});
+  saveCart();
+  var btn=document.querySelector('.btn-acart-lg');
+  if(btn){btn.textContent='✓ Added to Cart!';btn.style.background='linear-gradient(135deg,#16a34a,#22c55e)'}
+  var cb=document.getElementById('cab-'+id);
+  if(cb){cb.textContent='✓ Added';cb.classList.add('added')}
+  showToast('🛒 '+p.productName.slice(0,30)+(p.productName.length>30?'…':'')+' × '+modalQty+' added!');
+}
+function quickAddCart(id){
+  var p=allProducts.find(function(x){return x.id===id});if(!p)return;
+  var existing=cart.find(function(c){return c.id===id});
+  if(existing)existing.qty++;
+  else cart.push({id:id,name:p.productName,price:p.price||0,image:p.imageUrl||'',category:p.category||'',qty:1});
+  saveCart();
+  var cb=document.getElementById('cab-'+id);
+  if(cb){cb.textContent='✓ Added';cb.classList.add('added')}
+  showToast('🛒 '+p.productName.slice(0,28)+(p.productName.length>28?'…':'')+' added!');
+}
+
+/* ── Cart ── */
+function saveCart(){localStorage.setItem('sba_v5',JSON.stringify(cart));updateBadge()}
+function updateBadge(){
+  var t=cart.reduce(function(s,i){return s+i.qty},0);
+  var b=document.getElementById('cbadge');
+  b.textContent=t;
+  t>0?b.classList.add('show'):b.classList.remove('show');
+}
+function openCart(){renderCart();document.getElementById('cartPanel').classList.add('open');document.getElementById('cartOv').classList.add('open');document.body.style.overflow='hidden'}
+function closeCart(){document.getElementById('cartPanel').classList.remove('open');document.getElementById('cartOv').classList.remove('open');document.body.style.overflow=''}
+function cqCart(id,d){
+  var item=cart.find(function(c){return c.id===id});if(!item)return;
+  item.qty+=d;
+  if(item.qty<=0)cart=cart.filter(function(c){return c.id!==id});
+  saveCart();renderCart();
+}
+function removeFromCart(id){cart=cart.filter(function(c){return c.id!==id});saveCart();renderCart()}
+function renderCart(){
+  var c=document.getElementById('cpItems'),f=document.getElementById('cpFoot');
+  if(!cart.length){
+    c.innerHTML='<div class="cp-empty"><div class="cp-empty-icon">🛒</div><p style="font-weight:700;color:var(--text-mid)">Cart is empty</p><p style="font-size:.76rem;margin-top:4px">Browse and add items</p></div>';
+    f.style.display='none';return;
+  }
+  f.style.display='block';
+  c.innerHTML=cart.map(function(item){
+    var e=EM[item.category]||'🪣';
+    var ph=item.image
+      ?'<div class="ci-ph"><img src="'+item.image+'" alt="'+eh(item.name)+'" onerror="this.outerHTML=\'<span style=font-size:1.3rem>'+e+'</span>\'"></div>'
+      :'<div class="ci-ph"><span style="font-size:1.3rem">'+e+'</span></div>';
+    var pr=item.price>0?'₹'+(item.price*item.qty).toLocaleString('en-IN'):'Qty: '+item.qty;
+    return'<div class="ci">'+ph+'<div class="ci-info"><div class="ci-name">'+eh(item.name)+'</div><div class="ci-price">'+pr+'</div></div>'
+      +'<div class="ci-qty"><button class="cqb" onclick="cqCart(\''+item.id+'\',-1)">−</button><span class="cqn">'+item.qty+'</span><button class="cqb" onclick="cqCart(\''+item.id+'\',1)">+</button></div>'
+      +'<button class="ci-del" onclick="removeFromCart(\''+item.id+'\')">🗑</button></div>';
+  }).join('');
+  var total=cart.reduce(function(s,i){return s+(i.price*i.qty)},0);
+  var qty=cart.reduce(function(s,i){return s+i.qty},0);
+  document.getElementById('cpTotal').textContent=total>0?'₹'+total.toLocaleString('en-IN'):'—';
+  document.getElementById('cpSub').textContent=qty+' item'+(qty>1?'s':'')+' in cart';
+}
+function checkoutWA(){
+  if(!cart.length)return;
+  var msg='Vanakkam Sri Balaji Aluminium 🙏\n\nMy Order:\n';
+  cart.forEach(function(item,i){msg+=(i+1)+'. '+item.name+' – Qty: '+item.qty+(item.price>0?' (₹'+(item.price*item.qty).toLocaleString('en-IN')+')':'')+'\n'});
+  var total=cart.reduce(function(s,i){return s+(i.price*i.qty)},0);
+  msg+='\nTotal Items: '+cart.reduce(function(s,i){return s+i.qty},0);
+  if(total>0)msg+='\nEstimated Total: ₹'+total.toLocaleString('en-IN');
+  msg+='\n\nPlease confirm availability. Thank you! 😊';
+  window.open('https://wa.me/'+WA+'?text='+encodeURIComponent(msg),'_blank');
+}
+
+function showToast(msg){
+  var t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('show');
+  clearTimeout(t._t);t._t=setTimeout(function(){t.classList.remove('show')},2800);
+}
+
+document.addEventListener('DOMContentLoaded',function(){
+  updateBadge();
+  initHeroSlides();
+  loadProducts();
+  initReveal();
+});
+</script>
+</body>
+</html>
