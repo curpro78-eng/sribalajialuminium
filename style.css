@@ -455,8 +455,8 @@ button{cursor:pointer;font-family:var(--ff-b);border:none;background:none}
 .pcard-cat{font-size:.65rem;color:var(--text-light);margin-bottom:7px;font-weight:500}
 /* .pcard-price{font-family:var(--ff-d);font-size:1rem;font-weight:700;color:var(--text);margin-bottom:9px} */
 .pcard-price {
-  font-family: var(--ff-d);
-  font-size: 1.5rem;
+  font-family: var(normal);
+  font-size: 1.2rem;
   font-weight: 700;
   color: var(--g3);
   margin-bottom: 9px;
@@ -465,7 +465,7 @@ button{cursor:pointer;font-family:var(--ff-b);border:none;background:none}
   align-items: center;  /* 👈 keeps same line */
   gap: 4px;             /* small spacing */
 }
-.pcard-price.req{font-size:.76rem;color:var(--g3);font-family:var(--ff-b);font-style:italic;font-weight:400}
+.pcard-price.req{font-size:1.2rem;color:var(--g3);font-family:var(normal);font-style:italic;font-weight:400}
 .pcard-actions{display:flex;gap:6px;margin-top:auto}
 .btn-view{flex:1;padding:7px;border-radius:var(--r);background:var(--warm-gray);color:var(--text-mid);font-size:.72rem;font-weight:600;border:1.5px solid var(--border);transition:all .22s;cursor:pointer}
 .btn-view:hover{background:rgba(255,200,30,.12);border-color:var(--g2);color:var(--g3)}
